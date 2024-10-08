@@ -1,0 +1,24 @@
+{
+  "name": "application",
+  "scripts": {
+    "dev": "bun --watch src/index.ts",
+    "start": "bun src/index.ts",
+    "format": "prettier --"
+  },
+  "module": "src/index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "pino-pretty": "^11.2.2",
+    "prettier": "^3.3.3",
+    "prisma": "5.20.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@prisma/client": "5.20.0",
+    "discord.js": "^14.16.3",
+    "pino": "^9.4.0"
+  }
+}
