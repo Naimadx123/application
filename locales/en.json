@@ -1,0 +1,21 @@
+{
+  "commands": {
+    "ping": {
+      "success": "Pong!",
+      "fields": {
+        "websocket": "Websocket",
+        "database": "Database",
+        "api": "API"
+      },
+      "buttons": {
+        "reportIssues": "Report issues",
+        "servicesStatus": "Service status"
+      }
+    },
+    "locale": {
+      "success": ":flag_gb: Changed locale to English",
+      "error": "Failed to change locale",
+      "cooldown": "Locale on this server has been recently changed, please wait before changing again"
+    }
+  }
+}
