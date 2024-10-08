@@ -29,19 +29,6 @@ export default tseslint.config(
       "prefer-object-spread": "error",
       "unicode-bom": ["error", "never"],
 
-      // Restricted syntax
-      "no-restricted-syntax": [
-        "error",
-        {
-          selector: "Literal[raw=null]",
-          message: "Avoid using null; use undefined instead.",
-        },
-        {
-          selector: "TSNullKeyword",
-          message: "Avoid using null; use undefined instead.",
-        },
-      ],
-
       // TypeScript-specific rules
       "@typescript-eslint/naming-convention": [
         "error",
