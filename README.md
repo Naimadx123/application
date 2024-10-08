@@ -14,7 +14,7 @@ Meteor is an open-source Discord application that is flexible and easy to use. I
 
 The Meteor team is committed to making the application better over time, adding new features based on what users want.
 
-Join the [Discord](https://discord.gg/meteors) server for more information or to participate in the development of Meteor.
+Join the [Discord](https://discord.gg/k75WkqcQgh) server for more information or to participate in the development of Meteor.
 
 ### Built with
 
