@@ -1,0 +1,21 @@
+{
+  "commands": {
+    "ping": {
+      "success": "Pong!",
+      "fields": {
+        "websocket": "Websocket",
+        "database": "Baza danych",
+        "api": "API"
+      },
+      "buttons": {
+        "reportIssues": "Zgłoś problemy",
+        "servicesStatus": "Status serwisów"
+      }
+    },
+    "locale": {
+      "success": ":flag_pl: Zmieniono język na Polski",
+      "error": "Nie udało się zmienić języka",
+      "cooldown": "Język na tym serwerze został niedawno zmieniony, proszę poczekać przed ponowną zmianą"
+    }
+  }
+}
