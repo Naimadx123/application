@@ -418,15 +418,99 @@ export default class Locale extends Command {
             .addBooleanOption(option =>
               option
                 .setRequired(true)
-                .setName('status')
+                .setName('enabled')
                 .setNameLocalizations({
-                  pl: 'status',
-                  'es-ES': 'estado',
+                  pl: 'włączone',
+                  'es-ES': 'habilitado',
                 })
                 .setDescription('Enable or disable the ability to claim tickets.')
                 .setDescriptionLocalizations({
                   pl: 'Włącz lub wyłącz możliwość przejmowania zgłoszeń.',
                   'es-ES': 'Habilitar o deshabilitar la capacidad de reclamar tickets.',
+                })
+            )
+        )
+        .addSubcommand(subcommand =>
+          subcommand
+            .setName('limit')
+            .setNameLocalizations({
+              pl: 'limit',
+              'es-ES': 'límite',
+            })
+            .setDescription('Change the maximum number of tickets a user can have open at once.')
+            .setDescriptionLocalizations({
+              pl: 'Zmień maksymalną liczbę zgłoszeń, jakie użytkownik może mieć otwarte jednocześnie.',
+              'es-ES': 'Cambiar el número máximo de tickets que un usuario puede tener abiertos a la vez.',
+            })
+            .addStringOption(option =>
+              option
+                .setAutocomplete(true)
+                .setRequired(true)
+                .setName('name')
+                .setNameLocalizations({
+                  pl: 'nazwa',
+                  'es-ES': 'nombre',
+                })
+                .setDescription('The name of the ticket panel.')
+                .setDescriptionLocalizations({
+                  pl: 'Nazwa panelu zgłoszeń.',
+                  'es-ES': 'El nombre del panel de soporte.',
+                })
+            )
+            .addNumberOption(option =>
+              option
+                .setRequired(true)
+                .setName('limit')
+                .setNameLocalizations({
+                  pl: 'limit',
+                  'es-ES': 'límite',
+                })
+                .setDescription('Set the maximum number of tickets a user can have open.')
+                .setDescriptionLocalizations({
+                  pl: 'Ustaw maksymalną liczbę zgłoszeń, jakie użytkownik może mieć otwarte.',
+                  'es-ES': 'Establecer el número máximo de tickets que un usuario puede tener abiertos.',
+                })
+            )
+        )
+        .addSubcommand(subcommand =>
+          subcommand
+            .setName('feedback')
+            .setNameLocalizations({
+              pl: 'opinie',
+              'es-ES': 'comentarios',
+            })
+            .setDescription('Configure whether to ask for feedback after closing a ticket.')
+            .setDescriptionLocalizations({
+              pl: 'Skonfiguruj, czy prosić o opinię po zamknięciu zgłoszenia.',
+              'es-ES': 'Configura si deseas solicitar comentarios después de cerrar un ticket.',
+            })
+            .addStringOption(option =>
+              option
+                .setAutocomplete(true)
+                .setRequired(true)
+                .setName('name')
+                .setNameLocalizations({
+                  pl: 'nazwa',
+                  'es-ES': 'nombre',
+                })
+                .setDescription('The name of the ticket panel.')
+                .setDescriptionLocalizations({
+                  pl: 'Nazwa panelu zgłoszeń.',
+                  'es-ES': 'El nombre del panel de soporte.',
+                })
+            )
+            .addBooleanOption(option =>
+              option
+                .setRequired(true)
+                .setName('enabled')
+                .setNameLocalizations({
+                  pl: 'włączone',
+                  'es-ES': 'habilitado',
+                })
+                .setDescription('Enable or disable asking for feedback after closing a ticket.')
+                .setDescriptionLocalizations({
+                  pl: 'Włącz lub wyłącz prośbę o opinię po zamknięciu zgłoszenia.',
+                  'es-ES': 'Habilitar o deshabilitar la solicitud de comentarios después de cerrar un ticket.',
                 })
             )
         )
