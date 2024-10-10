@@ -111,6 +111,7 @@ export default class Locale extends Command {
             )
             .addChannelOption(option =>
               option
+                .setRequired(false)
                 .addChannelTypes(ChannelType.GuildCategory)
                 .setName('category')
                 .setNameLocalizations({
@@ -289,6 +290,21 @@ export default class Locale extends Command {
               pl: 'Włącz lub wyłącz wątki w systemie zgłoszeń.',
               'es-ES': 'Habilitar o deshabilitar hilos para el sistema de soporte.',
             })
+            .addStringOption(option =>
+              option
+                .setAutocomplete(true)
+                .setRequired(true)
+                .setName('name')
+                .setNameLocalizations({
+                  pl: 'nazwa',
+                  'es-ES': 'nombre',
+                })
+                .setDescription('The name of the ticket panel.')
+                .setDescriptionLocalizations({
+                  pl: 'Nazwa panelu zgłoszeń.',
+                  'es-ES': 'El nombre del panel de soporte.',
+                })
+            )
             .addBooleanOption(option =>
               option
                 .setRequired(true)
@@ -301,6 +317,116 @@ export default class Locale extends Command {
                 .setDescriptionLocalizations({
                   pl: 'Czy włączyć, czy wyłączyć wątki.',
                   'es-ES': 'Si habilitar o deshabilitar hilos.',
+                })
+            )
+        )
+        .addSubcommand(subcommand =>
+          subcommand
+            .setName('naming')
+            .setNameLocalizations({
+              pl: 'nazewnictwo',
+              'es-ES': 'nomenclatura',
+            })
+            .setDescription('Change the strategy of naming ticket channels.')
+            .setDescriptionLocalizations({
+              pl: 'Zmień strategię nazewnictwa kanałów zgłoszeń.',
+              'es-ES': 'Cambiar la estrategia de nomenclatura de los canales de tickets.',
+            })
+            .addStringOption(option =>
+              option
+                .setAutocomplete(true)
+                .setRequired(true)
+                .setName('name')
+                .setNameLocalizations({
+                  pl: 'nazwa',
+                  'es-ES': 'nombre',
+                })
+                .setDescription('The name of the ticket panel.')
+                .setDescriptionLocalizations({
+                  pl: 'Nazwa panelu zgłoszeń.',
+                  'es-ES': 'El nombre del panel de soporte.',
+                })
+            )
+            .addStringOption(option =>
+              option
+                .setRequired(true)
+                .setName('strategy')
+                .setNameLocalizations({
+                  pl: 'strategia',
+                  'es-ES': 'estrategia',
+                })
+                .setDescription('The new strategy of naming ticket channels.')
+                .setDescriptionLocalizations({
+                  pl: 'Nowa strategia nazewnictwa kanałów zgłoszeń.',
+                  'es-ES': 'La nueva estrategia de nomenclatura de los canales de tickets.',
+                })
+                .addChoices(
+                  {
+                    name: 'Username',
+                    value: 'username',
+                    name_localizations: {
+                      pl: 'Nazwa użytkownika',
+                      'es-419': 'Nombre de usuario',
+                    },
+                  },
+                  {
+                    name: 'User ID',
+                    value: 'userid',
+                    name_localizations: {
+                      pl: 'ID użytkownika',
+                      'es-419': 'ID de usuario',
+                    },
+                  },
+                  {
+                    name: 'Unique (Set of random characters)',
+                    value: 'unique',
+                    name_localizations: {
+                      pl: 'Unikalny (Losowe znaki)',
+                      'es-419': 'Unico (Caracteres aleatorios)',
+                    },
+                  }
+                )
+            )
+        )
+        .addSubcommand(subcommand =>
+          subcommand
+            .setName('claiming')
+            .setNameLocalizations({
+              pl: 'przejmowanie',
+              'es-ES': 'reclamación',
+            })
+            .setDescription('Change the claiming behavior of tickets.')
+            .setDescriptionLocalizations({
+              pl: 'Zmień sposób przejmowania zgłoszeń.',
+              'es-ES': 'Cambiar el comportamiento de reclamación de tickets.',
+            })
+            .addStringOption(option =>
+              option
+                .setAutocomplete(true)
+                .setRequired(true)
+                .setName('name')
+                .setNameLocalizations({
+                  pl: 'nazwa',
+                  'es-ES': 'nombre',
+                })
+                .setDescription('The name of the ticket panel.')
+                .setDescriptionLocalizations({
+                  pl: 'Nazwa panelu zgłoszeń.',
+                  'es-ES': 'El nombre del panel de soporte.',
+                })
+            )
+            .addBooleanOption(option =>
+              option
+                .setRequired(true)
+                .setName('status')
+                .setNameLocalizations({
+                  pl: 'status',
+                  'es-ES': 'estado',
+                })
+                .setDescription('Enable or disable the ability to claim tickets.')
+                .setDescriptionLocalizations({
+                  pl: 'Włącz lub wyłącz możliwość przejmowania zgłoszeń.',
+                  'es-ES': 'Habilitar o deshabilitar la capacidad de reclamar tickets.',
                 })
             )
         )
