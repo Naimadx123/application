@@ -49,11 +49,11 @@ export default class Ping extends Command {
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
         .setLabel(__('commands.ping.buttons.reportIssues'))
-        .setURL('https://discord.gg/meteorlabs'),
+        .setURL('https://discord.gg/92uqkS7Zyt'),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
         .setLabel(__('commands.ping.buttons.servicesStatus'))
-        .setURL('https://status.meteors.cc/')
+        .setURL('https://meteors.cc/status')
     );
 
     await interaction.reply({ embeds: [embed], components: [row] });
