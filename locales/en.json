@@ -1,5 +1,19 @@
 {
   "commands": {
+    "info": {
+      "user": {
+        "title": "User info",
+        "fields": {
+          "general": "General",
+          "nickname": "Nickname",
+          "username": "Username",
+          "createdAt": "Created at",
+          "joinedAt": "Joined at",
+          "roles": "Roles",
+          "member": "Member"
+        }
+      }
+    },
     "ping": {
       "success": "Pong!",
       "fields": {

@@ -1,5 +1,9 @@
 {
   "commands": {
+    "info": {
+      "title": "Información del usuario",
+      "fields": {}
+    },
     "ping": {
       "success": "¡Pong!",
       "fields": {
