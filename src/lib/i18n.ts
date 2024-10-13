@@ -26,9 +26,9 @@ class I18n {
       try {
         const fileContent = fs.readFileSync(filePath, 'utf8');
         this.locales[lang] = JSON.parse(fileContent);
-        logger.info(`Loaded locale '${lang}' from ${filePath}`);
+        logger.info(`Loaded locale '${lang}'`);
       } catch (error) {
-        logger.error(`Failed to load locale '${lang}' from ${filePath}:`, error);
+        logger.error(`Failed to load locale '${lang}':`, error);
         this.locales[lang] = {};
       }
     });
