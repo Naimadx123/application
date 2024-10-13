@@ -1,8 +1,10 @@
 import {
   ActionRowBuilder,
+  ApplicationIntegrationType,
   ButtonBuilder,
   ButtonStyle,
   ChatInputCommandInteraction,
+  InteractionContextType,
   SlashCommandBuilder,
 } from 'discord.js';
 
@@ -14,6 +16,8 @@ export default class Ping extends Command {
   public constructor() {
     super(
       new SlashCommandBuilder()
+        .setContexts(InteractionContextType.Guild, InteractionContextType.BotDM, InteractionContextType.PrivateChannel)
+        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
         .setName('ping')
         .setDescription('Check the latency of our services.')
         .setDescriptionLocalizations({

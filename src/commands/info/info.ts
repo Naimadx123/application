@@ -1,4 +1,9 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
+import {
+  ApplicationIntegrationType,
+  ChatInputCommandInteraction,
+  InteractionContextType,
+  SlashCommandBuilder,
+} from 'discord.js';
 import { Command, Embed } from '~/structures';
 
 import type { I18nFunction } from '~/lib/i18n';
@@ -7,6 +12,8 @@ export default class Info extends Command {
   public constructor() {
     super(
       new SlashCommandBuilder()
+        .setContexts(InteractionContextType.Guild, InteractionContextType.BotDM, InteractionContextType.PrivateChannel)
+        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
         .setName('info')
         .setDescription('Info command')
         .addSubcommand(subcommand =>
