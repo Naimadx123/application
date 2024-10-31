@@ -85,7 +85,6 @@ export default tseslint.config(
           leadingUnderscore: 'allow',
           filter: { regex: '^[A-Za-z]+_[A-Za-z]+$', match: false },
         },
-        // eslint-disable-next-line no-restricted-syntax
         { selector: 'property', format: null },
       ],
 

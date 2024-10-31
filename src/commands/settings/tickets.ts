@@ -518,6 +518,25 @@ export default class Locale extends Command {
   }
 
   public async run(interaction: ChatInputCommandInteraction, __: I18nFunction): Promise<unknown> {
-    return undefined;
+    const subcommand = interaction.options.getSubcommand();
+    const subcommandGroup = interaction.options.getSubcommandGroup();
+
+    switch (subcommandGroup) {
+      default: {
+        switch (subcommand) {
+          case 'create': {
+            await this.create(interaction, __);
+            break;
+          }
+          case 'delete': {
+            await this.delete(interaction, __);
+            break;
+          }
+        }
+      }
+    }
   }
+
+  public async create(interaction: ChatInputCommandInteraction, __: I18nFunction): Promise<unknown> {}
+  public async delete(interaction: ChatInputCommandInteraction, __: I18nFunction): Promise<unknown> {}
 }
