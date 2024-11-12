@@ -9,14 +9,7 @@ import type { Command } from '~/structures/command';
 import type { Event } from './event';
 
 export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
-  /**
-   * Prisma client
-   */
   public readonly prisma = new PrismaClient();
-
-  /**
-   * Collection of commands.
-   */
   public readonly commands = new Collection<string, Command>();
 
   public constructor(options: ClientOptions) {
@@ -91,6 +84,7 @@ export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
 
     await this.login().catch(error => {
       console.error(error);
+      process.exit(1);
     });
   }
 }
