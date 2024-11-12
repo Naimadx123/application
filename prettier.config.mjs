@@ -9,6 +9,7 @@ const config = {
   semi: true,
   singleQuote: true,
   arrowParens: 'avoid',
+  endOfLine: 'lf',
 };
 
 export default config;

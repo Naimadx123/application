@@ -28,6 +28,7 @@ export default tseslint.config(
       'prefer-const': 'error',
       'prefer-object-spread': 'error',
       'unicode-bom': ['error', 'never'],
+      'linebreak-style': ['error', 'unix'],
 
       // TypeScript-specific rules
       '@typescript-eslint/naming-convention': [
