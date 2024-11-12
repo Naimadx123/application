@@ -1,7 +1,7 @@
 import { GatewayIntentBits, Partials } from 'discord.js';
 
-import { Client } from '~/structures';
 import logger from '~/lib/logger';
+import { Client } from '~/structures';
 
 export const client = new Client({
   intents: Object.values(GatewayIntentBits).map(bit => bit) as GatewayIntentBits[],

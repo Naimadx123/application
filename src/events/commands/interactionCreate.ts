@@ -1,8 +1,8 @@
-import { Event } from '~/structures';
 import type { Interaction } from 'discord.js';
 import { client } from '~/index';
 import i18n, { type Locale } from '~/lib/i18n';
 import logger from '~/lib/logger';
+import { Event } from '~/structures';
 
 export default class InteractionCreate extends Event {
   public constructor() {

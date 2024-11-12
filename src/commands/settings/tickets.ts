@@ -7,8 +7,8 @@ import {
   SlashCommandBuilder,
 } from 'discord.js';
 
-import { Command } from '~/structures';
 import type { I18nFunction } from '~/lib/i18n';
+import { Command } from '~/structures';
 
 export default class Locale extends Command {
   public constructor() {

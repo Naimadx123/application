@@ -8,9 +8,9 @@ import {
   SlashCommandBuilder,
 } from 'discord.js';
 
+import type { I18nFunction } from '~/lib/i18n';
 import { Command } from '~/structures';
 import { Embed } from '~/structures/embed';
-import type { I18nFunction } from '~/lib/i18n';
 
 export default class Ping extends Command {
   public constructor() {

@@ -7,12 +7,12 @@ import {
   SlashCommandBuilder,
 } from 'discord.js';
 
-import { Command } from '~/structures';
-import { Embed } from '~/structures/embed';
-import type { I18nFunction } from '~/lib/i18n';
 import type { Locale as LocalePrismaType } from '@prisma/client';
 import { client } from '~/index';
+import type { I18nFunction } from '~/lib/i18n';
 import i18n, { type Locale as LocaleType } from '~/lib/i18n';
+import { Command } from '~/structures';
+import { Embed } from '~/structures/embed';
 
 export default class Locale extends Command {
   public constructor() {
