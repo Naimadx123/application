@@ -1,6 +1,5 @@
-import { GatewayIntentBits, Partials } from 'discord.js';
+import { ActivityType, GatewayIntentBits, Partials } from 'discord.js';
 
-import logger from '~/lib/logger';
 import { Client } from '~/structures';
 
 export const client = new Client({
@@ -9,9 +8,14 @@ export const client = new Client({
   allowedMentions: {
     repliedUser: false,
   },
+  presence: {
+    activities: [
+      {
+        name: 'github.com/meteor-discord',
+        type: ActivityType.Custom,
+      },
+    ],
+  },
 });
 
-(async (): Promise<void> => {
-  logger.info('Starting application...');
-  await client.init();
-})();
+(async (): Promise<void> => await client.init())();
