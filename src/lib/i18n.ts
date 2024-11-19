@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import logger from './logger';
+import { logger } from './logger';
 
 export type I18nFunction = (key: string) => string;
 

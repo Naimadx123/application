@@ -4,7 +4,7 @@ import fs from 'fs/promises';
 import path from 'path';
 
 import { PrismaClient } from '@prisma/client';
-import logger from '~/lib/logger';
+import { logger } from '~/lib/logger';
 import type { Command } from '~/structures/command';
 import type { Event } from './event';
 
