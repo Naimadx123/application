@@ -37,7 +37,7 @@
     },
     "cobalt": {
       "downloading": "Descargando medios desde la URL",
-      "downloaded": "Video descargado en un impresionante tiempo de {time}",
+      "downloaded": "Medios descargados en {time}",
       "noFiles": "No hay archivos para exportar",
       "tooLarge": "El archivo supera el límite de 10 MB ({size})",
       "filesLengthWarning": "Mostrando solo los primeros 10 archivos",

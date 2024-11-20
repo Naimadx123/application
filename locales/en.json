@@ -37,7 +37,7 @@
     },
     "cobalt": {
       "downloading": "Downloading media from URL",
-      "downloaded": "Downloaded video in a whopping {time}",
+      "downloaded": "Downloaded media in {time}",
       "noFiles": "No files to export",
       "tooLarge": "The file is over the limit of 10mb ({size})",
       "filesLengthWarning": "Displaying only first 10 files",
