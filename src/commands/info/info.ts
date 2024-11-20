@@ -1,11 +1,15 @@
 import {
+  ActionRowBuilder,
   ApplicationIntegrationType,
+  ButtonBuilder,
+  ButtonStyle,
   ChatInputCommandInteraction,
   InteractionContextType,
   SlashCommandBuilder,
 } from 'discord.js';
-import { Command, Embed } from '~/structures';
 
+import { Command } from '~/structures/command';
+import { Embed } from '~/structures/embed';
 import type { I18nFunction } from '~/lib/i18n';
 
 export default class Info extends Command {
@@ -34,7 +38,7 @@ export default class Info extends Command {
     );
   }
 
-  public async run(interaction: ChatInputCommandInteraction, __: I18nFunction): Promise<void> {
+  public async run(interaction: ChatInputCommandInteraction, $: I18nFunction): Promise<void> {
     switch (interaction.options.getSubcommand()) {
       case 'user': {
         const user = await interaction.client.users.fetch(interaction.options.getUser('user') || interaction.user);
@@ -42,7 +46,7 @@ export default class Info extends Command {
 
         const embed = new Embed()
           .setDefaults(user)
-          .setTitle(__('commands.info.user.title'))
+          .setTitle($('commands.info.user.title'))
           .setURL(`https://discord.com/users/${user.id}`)
           .setThumbnail(user.displayAvatarURL())
           .setImage((await user.fetch()).bannerURL({ size: 4096 }) || null)
@@ -52,29 +56,48 @@ export default class Info extends Command {
               value: user.id,
             },
             {
-              name: __('commands.info.user.fields.general'),
-              value: `${__('commands.info.user.fields.username')}: ${user.username}\n${__('commands.info.user.fields.createdAt')}: ${'<t:' + Math.floor(user.createdTimestamp / 1000) + ':R>' || 'N/A'}
+              name: $('commands.info.user.fields.general'),
+              value: `${$('commands.info.user.fields.username')}: ${user.username}\n${$('commands.info.user.fields.createdAt')}: ${'<t:' + Math.floor(user.createdTimestamp / 1000) + ':R>' || 'N/a'}
                   `,
             },
           ]);
 
         const member = await interaction.guild?.members.fetch(user.id).catch(() => null);
         if (member) {
+          const roles = member.roles.cache
+            .filter(role => role.id !== member.guild.id)
+            .sort((a, b) => b.position - a.position)
+            .map(role => `<@&${role.id}>`);
+
+          const rolesString =
+            roles.length > 0
+              ? roles.slice(0, 4).join(', ') + (roles.length > 4 ? ` (+${roles.length - 4})` : '')
+              : 'N/a';
+
           embed.addFields([
             {
-              name: __('commands.info.user.fields.member'),
-              value: `${__('commands.info.user.fields.joinedAt')}: <t:${Math.floor(member.joinedTimestamp! / 1000)}:R>\n${__('commands.info.user.fields.roles')}: ${member.roles.cache
-                .sort((a, b) => b.position - a.position)
-                .map(r => `<@&${r.id}>`)
-                .slice(0, 4)
-                .join(
-                  ', '
-                )}${member.roles.cache.size > 4 ? ` (+${member.roles.cache.size - 4})` : ''}\n${__('commands.info.user.fields.nickname')}: ${member.nickname || 'N/A'}`,
+              name: $('commands.info.user.fields.member'),
+              value: [
+                `${$('commands.info.user.fields.joinedAt')}: <t:${Math.floor(member.joinedTimestamp! / 1000)}:R>`,
+                `${$('commands.info.user.fields.roles')}: ${rolesString}`,
+                `${$('commands.info.user.fields.nickname')}: ${member.nickname || 'N/a'}`,
+              ].join('\n'),
             },
           ]);
         }
 
-        interaction.reply({ embeds: [embed] });
+        const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setStyle(ButtonStyle.Link)
+            .setLabel($('commands.info.user.buttons.avatar'))
+            .setURL(user.displayAvatarURL()),
+          new ButtonBuilder()
+            .setStyle(ButtonStyle.Link)
+            .setLabel($('commands.info.user.buttons.user'))
+            .setURL(`https://discord.com/users/${user.id}`)
+        );
+
+        interaction.reply({ embeds: [embed], components: [row] });
 
         break;
       }

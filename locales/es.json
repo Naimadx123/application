@@ -1,8 +1,22 @@
 {
   "commands": {
     "info": {
-      "title": "Información del usuario",
-      "fields": {}
+      "user": {
+        "title": "Información del usuario",
+        "fields": {
+          "general": "General",
+          "nickname": "Apodo",
+          "username": "Nombre de usuario",
+          "createdAt": "Creado el",
+          "joinedAt": "Unido el",
+          "roles": "Roles",
+          "member": "Miembro"
+        },
+        "buttons": {
+          "avatar": "URL del avatar",
+          "user": "URL del usuario"
+        }
+      }
     },
     "ping": {
       "success": "¡Pong!",
@@ -20,6 +34,17 @@
       "success": ":flag_es: Idioma cambiado a Español",
       "error": "No se pudo cambiar el idioma",
       "cooldown": "El idioma en este servidor se ha cambiado recientemente, por favor espera antes de cambiarlo nuevamente"
+    },
+    "cobalt": {
+      "downloading": "Descargando medios desde la URL",
+      "downloaded": "Video descargado en un impresionante tiempo de {time}",
+      "noFiles": "No hay archivos para exportar",
+      "tooLarge": "El archivo supera el límite de 10 MB ({size})",
+      "filesLengthWarning": "Mostrando solo los primeros 10 archivos",
+      "fields": {
+        "files": "Archivos",
+        "size": "Tamaño"
+      }
     }
   }
 }

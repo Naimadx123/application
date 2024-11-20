@@ -8,9 +8,9 @@ import {
   SlashCommandBuilder,
 } from 'discord.js';
 
-import type { I18nFunction } from '~/lib/i18n';
-import { Command } from '~/structures';
+import { Command } from '~/structures/command';
 import { Embed } from '~/structures/embed';
+import type { I18nFunction } from '~/lib/i18n';
 
 export default class Ping extends Command {
   public constructor() {
@@ -27,23 +27,23 @@ export default class Ping extends Command {
     );
   }
 
-  public async run(interaction: ChatInputCommandInteraction, __: I18nFunction): Promise<void> {
+  public async run(interaction: ChatInputCommandInteraction, $: I18nFunction): Promise<void> {
     const embed = new Embed()
       .setDefaults(interaction.user)
-      .setDescription(':ping_pong: ' + __('commands.ping.success'))
+      .setDescription(':ping_pong: ' + $('commands.ping.success'))
       .addFields([
         {
-          name: __('commands.ping.fields.websocket'),
+          name: $('commands.ping.fields.websocket'),
           value: `${interaction.client.ws.ping}ms`,
           inline: true,
         },
         {
-          name: __('commands.ping.fields.database'),
+          name: $('commands.ping.fields.database'),
           value: `0ms`,
           inline: true,
         },
         {
-          name: __('commands.ping.fields.api'),
+          name: $('commands.ping.fields.api'),
           value: `0ms`,
           inline: true,
         },
@@ -52,11 +52,11 @@ export default class Ping extends Command {
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
-        .setLabel(__('commands.ping.buttons.reportIssues'))
+        .setLabel($('commands.ping.buttons.reportIssues'))
         .setURL('https://discord.gg/92uqkS7Zyt'),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
-        .setLabel(__('commands.ping.buttons.servicesStatus'))
+        .setLabel($('commands.ping.buttons.servicesStatus'))
         .setURL('https://meteors.cc/status')
     );
 

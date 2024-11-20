@@ -1,8 +1,22 @@
 {
   "commands": {
     "info": {
-      "title": "Informacja o użytkowniku",
-      "fields": {}
+      "user": {
+        "title": "Informacje o użytkowniku",
+        "fields": {
+          "general": "Ogólne",
+          "nickname": "Pseudonim",
+          "username": "Nazwa użytkownika",
+          "createdAt": "Utworzono",
+          "joinedAt": "Dołączył",
+          "roles": "Role",
+          "member": "Członek"
+        },
+        "buttons": {
+          "avatar": "URL awatara",
+          "user": "URL użytkownika"
+        }
+      }
     },
     "ping": {
       "success": "Pong!",
@@ -20,6 +34,17 @@
       "success": ":flag_pl: Zmieniono język na Polski",
       "error": "Nie udało się zmienić języka",
       "cooldown": "Język na tym serwerze został niedawno zmieniony, proszę poczekać przed ponowną zmianą"
+    },
+    "cobalt": {
+      "downloading": "Pobieranie mediów z URL",
+      "downloaded": "Pobrano wideo w imponującym czasie {time}",
+      "noFiles": "Brak plików do wyeksportowania",
+      "tooLarge": "Plik przekracza limit 10 MB ({size})",
+      "filesLengthWarning": "Wyświetlanie tylko pierwszych 10 plików",
+      "fields": {
+        "files": "Pliki",
+        "size": "Rozmiar"
+      }
     }
   }
 }

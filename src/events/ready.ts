@@ -1,6 +1,6 @@
+import { Event } from '~/structures/event';
 import { client } from '~/index';
 import { logger } from '~/lib/logger';
-import { Event } from '~/structures';
 
 export default class Ready extends Event {
   public constructor() {

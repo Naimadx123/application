@@ -7,8 +7,8 @@ import {
   SlashCommandBuilder,
 } from 'discord.js';
 
+import { Command } from '~/structures/command';
 import type { I18nFunction } from '~/lib/i18n';
-import { Command } from '~/structures';
 
 export default class Locale extends Command {
   public constructor() {
@@ -517,7 +517,7 @@ export default class Locale extends Command {
     );
   }
 
-  public async run(interaction: ChatInputCommandInteraction, __: I18nFunction): Promise<unknown> {
+  public async run(interaction: ChatInputCommandInteraction, $: I18nFunction): Promise<unknown> {
     const subcommand = interaction.options.getSubcommand();
     const subcommandGroup = interaction.options.getSubcommandGroup();
 
@@ -525,11 +525,11 @@ export default class Locale extends Command {
       default: {
         switch (subcommand) {
           case 'create': {
-            await this.create(interaction, __);
+            await this.create(interaction, $);
             break;
           }
           case 'delete': {
-            await this.delete(interaction, __);
+            await this.delete(interaction, $);
             break;
           }
         }
@@ -537,6 +537,6 @@ export default class Locale extends Command {
     }
   }
 
-  public async create(interaction: ChatInputCommandInteraction, __: I18nFunction): Promise<unknown> {}
-  public async delete(interaction: ChatInputCommandInteraction, __: I18nFunction): Promise<unknown> {}
+  public async create(interaction: ChatInputCommandInteraction, $: I18nFunction): Promise<unknown> {}
+  public async delete(interaction: ChatInputCommandInteraction, $: I18nFunction): Promise<unknown> {}
 }

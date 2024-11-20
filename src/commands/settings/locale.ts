@@ -10,8 +10,8 @@ import {
 import type { Locale as LocalePrismaType } from '@prisma/client';
 import { client } from '~/index';
 import type { I18nFunction } from '~/lib/i18n';
-import i18n, { type Locale as LocaleType } from '~/lib/i18n';
-import { Command } from '~/structures';
+import { type Locale as LocaleType } from '~/lib/i18n';
+import { Command } from '~/structures/command';
 import { Embed } from '~/structures/embed';
 
 export default class Locale extends Command {
@@ -59,10 +59,10 @@ export default class Locale extends Command {
    */
   private readonly cooldowns = new Collection<string, number>();
 
-  public async run(interaction: ChatInputCommandInteraction, __: I18nFunction): Promise<unknown> {
+  public async run(interaction: ChatInputCommandInteraction, $: I18nFunction): Promise<unknown> {
     if (this.cooldowns.has(interaction.guildId!)) {
       if (Date.now() - this.cooldowns.get(interaction.guildId!)! < 1 * 60 * 1000) {
-        const embed = new Embed().setDefaults(interaction.user).setDescription(__('commands.locale.cooldown'));
+        const embed = new Embed().setDefaults(interaction.user).setDescription($('commands.locale.cooldown'));
 
         return await interaction.reply({
           embeds: [embed],
@@ -90,7 +90,7 @@ export default class Locale extends Command {
       .finally(() => this.cooldowns.set(interaction.guildId!, Date.now()));
 
     if (!result) {
-      const embed = new Embed().setDefaults(interaction.user).setDescription(__('commands.locale.error'));
+      const embed = new Embed().setDefaults(interaction.user).setDescription($('commands.locale.error'));
 
       return await interaction.reply({
         embeds: [embed],
@@ -101,7 +101,10 @@ export default class Locale extends Command {
     const embed = new Embed()
       .setDefaults(interaction.user)
       .setDescription(
-        i18n.__(interaction.options.getString('locale', true).toLowerCase() as LocaleType, 'commands.locale.success')
+        client.i18n.translate(
+          interaction.options.getString('locale', true).toLowerCase() as LocaleType,
+          'commands.locale.success'
+        )
       );
 
     await interaction.reply({
