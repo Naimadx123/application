@@ -3,50 +3,54 @@ import { logger } from './logger';
 import path from 'path';
 
 export type Locale = 'en' | 'pl' | 'es';
-export type I18nFunction = (key: string, vars?: Record<string, string>) => string;
+export type I18nFunction = (key: string, variables?: Record<string, string>) => string;
 
-export interface Translations {
-  [key: string]: string | Translations;
-}
+export type FlatTranslations = Record<string, string>;
 
 export class I18n {
-  private readonly locales: Record<Locale, Translations> = { en: {}, pl: {}, es: {} };
+  private readonly translationsByLocale: Record<Locale, FlatTranslations> = { en: {}, pl: {}, es: {} };
 
-  constructor(private readonly supportedLanguages: Locale[] = ['en', 'pl', 'es']) {}
+  constructor(private readonly availableLocales: Locale[] = ['en', 'pl', 'es']) {}
 
-  public async init(basePath = path.join(__dirname, '../../locales')): Promise<void> {
+  public async init(localesPath = path.join(__dirname, '../../locales')): Promise<void> {
     await Promise.all(
-      this.supportedLanguages.map(async lang => {
+      this.availableLocales.map(async locale => {
         try {
-          const filePath = path.join(basePath, `${lang}.json`);
+          const filePath = path.join(localesPath, `${locale}.json`);
           const fileContent = await fs.readFile(filePath, 'utf8');
-          this.locales[lang] = JSON.parse(fileContent);
+          const nestedTranslations = JSON.parse(fileContent);
+          this.translationsByLocale[locale] = this.flattenTranslations(nestedTranslations);
         } catch (error) {
-          logger.error(`Failed to load locale '${lang}':`, error);
+          logger.error(`Failed to load locale '${locale}':`, error);
         }
       })
     );
   }
 
-  public translate(lang: Locale, key: string, vars?: Record<string, string>): string {
-    const translation =
-      this.resolveNestedKey(this.locales[lang], key) ?? this.resolveNestedKey(this.locales.en, key) ?? key;
+  public translate(locale: Locale, key: string, variables?: Record<string, string>): string {
+    const translation = this.translationsByLocale[locale][key] ?? this.translationsByLocale.en[key] ?? key;
 
-    return vars ? translation.replace(/\{(\w+)\}/g, (_, varName) => vars[varName] ?? `{${varName}}`) : translation;
+    return variables
+      ? translation.replace(/\{(\w+)\}/g, (_, varName) => variables[varName] ?? `{${varName}}`)
+      : translation;
   }
 
-  private resolveNestedKey(obj: Translations, key: string): string | undefined {
-    const parts = key.split('.');
-    let value: string | Translations | undefined = obj;
+  private flattenTranslations(obj: Record<string, string | Record<string, unknown>>, prefix = ''): FlatTranslations {
+    const flattened: FlatTranslations = {};
 
-    for (const part of parts) {
-      if (typeof value === 'object' && value !== null && part in value) {
-        value = value[part];
-      } else {
-        return undefined;
+    for (const [key, value] of Object.entries(obj)) {
+      const fullKey = prefix ? `${prefix}.${key}` : key;
+
+      if (typeof value === 'string') {
+        flattened[fullKey] = value;
+      } else if (typeof value === 'object' && value !== null) {
+        Object.assign(
+          flattened,
+          this.flattenTranslations(value as Record<string, string | Record<string, unknown>>, fullKey)
+        );
       }
     }
 
-    return typeof value === 'string' ? value : undefined;
+    return flattened;
   }
 }
