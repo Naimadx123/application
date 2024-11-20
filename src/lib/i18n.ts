@@ -3,7 +3,7 @@ import { logger } from './logger';
 import path from 'path';
 
 export type Locale = 'en' | 'pl' | 'es';
-export type TranslationFunction = (key: string, variables?: Record<string, string>) => string;
+export type I18nFunction = (key: string, variables?: Record<string, string>) => string;
 
 export type FlatTranslations = Record<string, string>;
 
@@ -28,13 +28,10 @@ export class I18n {
   }
 
   public translate(locale: Locale, key: string, variables?: Record<string, string>): string {
-    const translation = 
-      this.translationsByLocale[locale][key] ?? 
-      this.translationsByLocale.en[key] ?? 
-      key;
+    const translation = this.translationsByLocale[locale][key] ?? this.translationsByLocale.en[key] ?? key;
 
-    return variables 
-      ? translation.replace(/\{(\w+)\}/g, (_, varName) => variables[varName] ?? `{${varName}}`) 
+    return variables
+      ? translation.replace(/\{(\w+)\}/g, (_, varName) => variables[varName] ?? `{${varName}}`)
       : translation;
   }
 
@@ -43,11 +40,14 @@ export class I18n {
 
     for (const [key, value] of Object.entries(obj)) {
       const fullKey = prefix ? `${prefix}.${key}` : key;
-      
+
       if (typeof value === 'string') {
         flattened[fullKey] = value;
       } else if (typeof value === 'object' && value !== null) {
-        Object.assign(flattened, this.flattenTranslations(value as Record<string, string | Record<string, unknown>>, fullKey));
+        Object.assign(
+          flattened,
+          this.flattenTranslations(value as Record<string, string | Record<string, unknown>>, fullKey)
+        );
       }
     }
 
