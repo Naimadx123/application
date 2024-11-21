@@ -22,6 +22,15 @@ export default class Info extends Command {
         .setDescription('Info command')
         .addSubcommand(subcommand =>
           subcommand
+            .setName('server')
+            .setDescription('Check informations about the server.')
+            .setDescriptionLocalizations({
+              pl: 'Sprawdź informacje o serwerze.',
+              'es-ES': 'Revisa la información del servidor.',
+            })
+        )
+        .addSubcommand(subcommand =>
+          subcommand
             .setName('user')
             .setDescription('Check informations about a user.')
             .setDescriptionLocalizations({
@@ -101,6 +110,54 @@ export default class Info extends Command {
 
         break;
       }
+      case 'server': {
+        if (!interaction.guild) {
+          await interaction.reply({ embeds: [
+              new Embed()
+                .setDefaults(interaction.user)
+                .setDescription($('commands.info.server.noGuild'))
+            ],
+          });
+          return;
+        }
+
+        const embed = new Embed()
+          .setDefaults(interaction.user)
+          .setTitle(interaction.guild.name)
+          .setThumbnail(interaction.guild.iconURL() || null)
+          .setFields([
+            {
+              name: `ID`,
+              value: interaction.guild.id,
+            },
+            {
+              name: $('commands.info.server.fields.general'),
+              value: [
+                `${$('commands.info.server.fields.createdAt')}: <t:${Math.floor(interaction.guild.createdTimestamp! / 1000)}:R>`,
+                `${$('commands.info.server.fields.owner')}: <@${interaction.guild.ownerId}>`,
+              ].join('\n'),
+            },
+            {
+              name: $('commands.info.server.fields.statistics'),
+              value: [
+                `${$('commands.info.server.fields.boosts')}: ${interaction.guild.premiumSubscriptionCount}`,
+                `${$('commands.info.server.fields.members')}: ${interaction.guild.memberCount}`,
+                `${$('commands.info.server.fields.verificationLevel')}: ${interaction.guild.verificationLevel}`,
+              ].join('\n'),
+            },
+          ]);
+
+        const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setStyle(ButtonStyle.Link)
+            .setLabel(`${$('commands.info.server.buttons.logo')}`)
+            .setURL(interaction.guild.iconURL() ?? 'https://discord.com/assets/847541504914fd33810e70a0ea73177e.ico')
+        )
+
+        await interaction.reply({ embeds: [embed], components: [row] });
+        break;
+      }
+
     }
   }
 }

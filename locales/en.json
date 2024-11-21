@@ -16,6 +16,21 @@
           "avatar": "Avatar URL",
           "user": "User URL"
         }
+      },
+      "server": {
+        "buttons": {
+          "logo": "Avatar URL"
+        },
+        "fields": {
+          "general": "General",
+          "createdAt": "Created at",
+          "owner": "Owner",
+          "statistics": "Statistics",
+          "boosts": "Boosts",
+          "members": "Members",
+          "verificationLevel": "Verification Level"
+        },
+        "noGuild": "You are not in any guild"
       }
     },
     "ping": {

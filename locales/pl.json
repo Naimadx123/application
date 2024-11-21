@@ -16,6 +16,21 @@
           "avatar": "URL awatara",
           "user": "URL użytkownika"
         }
+      },
+      "server": {
+        "buttons": {
+          "logo": "URL awatara"
+        },
+        "fields": {
+          "general": "Ogólne",
+          "createdAt": "Utworzono",
+          "owner": "Właściciel",
+          "statistics": "Statystyki",
+          "boosts": "Boosty",
+          "members": "Członków",
+          "verificationLevel": "Poziom weryfikacji"
+        },
+        "noGuild": "Nie jesteś w żadnym serwerze"
       }
     },
     "ping": {

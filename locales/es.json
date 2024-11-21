@@ -16,6 +16,21 @@
           "avatar": "URL del avatar",
           "user": "URL del usuario"
         }
+      },
+      "server": {
+        "buttons": {
+          "logo": "URL del avatar"
+        },
+        "fields": {
+          "general": "General",
+          "createdAt": "Creado el",
+          "owner": "Dueño",
+          "statistics": "Estadísticas",
+          "boosts": "Boosts",
+          "members": "Miembros",
+          "verificationLevel": "Nivel de verificación"
+        },
+        "noGuild": "No estás en ningún servidor"
       }
     },
     "ping": {
