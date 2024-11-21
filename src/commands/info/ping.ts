@@ -30,7 +30,7 @@ export default class Ping extends Command {
   public async run(interaction: ChatInputCommandInteraction, $: I18nFunction): Promise<void> {
     const embed = new Embed()
       .setDefaults(interaction.user)
-      .setDescription(':ping_pong: ' + $('commands.ping.success'))
+      .setDescription(':ping_pong: ' + $('commands.ping.response'))
       .addFields([
         {
           name: $('commands.ping.fields.websocket'),

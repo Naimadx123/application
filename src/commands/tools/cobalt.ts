@@ -56,15 +56,15 @@ export default class Cobalt extends Command {
   }
 
   public async run(interaction: ChatInputCommandInteraction, $: I18nFunction): Promise<void> {
-    const startTime = Date.now();
-
     const url = interaction.options.getString('url');
     const ephemeral = interaction.options.getBoolean('ephemeral') ?? false;
 
     await interaction.reply({
-      embeds: [new Embed().setDefaults(interaction.user).setDescription($('commands.cobalt.downloading'))],
+      embeds: [new Embed().setDefaults(interaction.user).setDescription($('commands.cobalt.status.downloading'))],
       ephemeral,
     });
+
+    const startTime = Date.now();
 
     const response = await client.cobalt.fetch(url!);
     logger.debug(response);
@@ -104,16 +104,31 @@ export default class Cobalt extends Command {
       }
       case 'error':
       default: {
+        const code = response
+          .error!.code.replace('error.api.', '')
+          .replaceAll('.', '_')
+          .replace('invalid_body', 'link_invalid');
+        const errorTranslation = $(`commands.cobalt.apiErrors.${code}`);
         await interaction.editReply({
-          embeds: [new Embed().setDefaults(interaction.user).setDescription(response.error!)],
+          embeds: [
+            new Embed()
+              .setDefaults(interaction.user)
+              .setDescription(
+                errorTranslation === `commands.cobalt.apiErrors.${code}`
+                  ? $('commands.cobalt.apiErrors.generic')
+                  : errorTranslation
+              ),
+          ],
         });
         return;
       }
     }
 
+    const endTime = Date.now();
+
     if (files?.length === 0) {
       await interaction.editReply({
-        embeds: [new Embed().setDefaults(interaction.user).setDescription($('commands.cobalt.noFiles'))],
+        embeds: [new Embed().setDefaults(interaction.user).setDescription($('commands.cobalt.status.noFiles'))],
       });
       return;
     }
@@ -123,7 +138,7 @@ export default class Cobalt extends Command {
       await interaction.editReply({
         embeds: [
           new Embed().setDefaults(interaction.user).setDescription(
-            $('commands.cobalt.tooLarge', {
+            $('commands.cobalt.status.fileTooLarge', {
               size: `${(combinedSize / 1024 / 1024).toFixed(2)}mb`,
             })
           ),
@@ -137,8 +152,8 @@ export default class Cobalt extends Command {
         new Embed()
           .setDefaults(interaction.user)
           .setDescription(
-            $('commands.cobalt.downloaded', {
-              time: `${(Date.now() - startTime) / 1000}s`,
+            $('commands.cobalt.status.downloadComplete', {
+              time: `${(endTime - startTime) / 1000}s`,
             })
           )
           .addFields([
