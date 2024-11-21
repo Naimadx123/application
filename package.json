@@ -3,15 +3,14 @@
   "module": "src/index.ts",
   "type": "module",
   "engines": {
-    "bun": ">=1.1.0",
-    "pnpm": ">=9.13.2"
+    "bun": ">=1.1.0"
   },
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "start": "bun run src/index.ts",
     "format": "prettier --write .",
     "lint": "eslint . --ext .ts",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "bunx only-allow bun"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
