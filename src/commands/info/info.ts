@@ -112,11 +112,8 @@ export default class Info extends Command {
       }
       case 'server': {
         if (!interaction.guild) {
-          await interaction.reply({ embeds: [
-              new Embed()
-                .setDefaults(interaction.user)
-                .setDescription($('commands.info.server.noGuild'))
-            ],
+          await interaction.reply({
+            embeds: [new Embed().setDefaults(interaction.user).setDescription($('commands.info.server.noGuild'))],
           });
           return;
         }
@@ -152,12 +149,11 @@ export default class Info extends Command {
             .setStyle(ButtonStyle.Link)
             .setLabel(`${$('commands.info.server.buttons.logo')}`)
             .setURL(interaction.guild.iconURL() ?? 'https://discord.com/assets/847541504914fd33810e70a0ea73177e.ico')
-        )
+        );
 
         await interaction.reply({ embeds: [embed], components: [row] });
         break;
       }
-
     }
   }
 }
