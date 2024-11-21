@@ -1,79 +1,56 @@
-import fs from 'fs';
-import logger from './logger';
+import fs from 'fs/promises';
+import { logger } from './logger';
 import path from 'path';
 
-export type I18nFunction = (key: string) => string;
-
 export type Locale = 'en' | 'pl' | 'es';
-export type Translations = Record<string, string>;
+export type I18nFunction = (key: string, variables?: Record<string, string>) => string;
 
-class I18n {
-  private readonly supportedLanguages: Locale[] = ['en', 'pl', 'es'];
-  private locales: Record<Locale, Translations>;
+export type FlatTranslations = Record<string, string>;
 
-  constructor() {
-    this.locales = {} as Record<Locale, Translations>;
-    this.loadLocales();
-  }
+export class I18n {
+  private readonly translationsByLocale: Record<Locale, FlatTranslations> = { en: {}, pl: {}, es: {} };
 
-  /**
-   * Loads translation files for all supported languages.
-   * Reads JSON files from the 'locales' directory and parses them into the locales object.
-   */
-  private loadLocales() {
-    this.supportedLanguages.forEach(lang => {
-      const filePath = path.join(__dirname, '../..', 'locales', `${lang}.json`);
-      try {
-        const fileContent = fs.readFileSync(filePath, 'utf8');
-        this.locales[lang] = JSON.parse(fileContent);
-        logger.info(`Loaded locale '${lang}' from ${filePath}`);
-      } catch (error) {
-        logger.error(`Failed to load locale '${lang}' from ${filePath}:`, error);
-        this.locales[lang] = {};
-      }
-    });
-  }
+  constructor(private readonly availableLocales: Locale[] = ['en', 'pl', 'es']) {}
 
-  /**
-   * Translates a given key into the specified language.
-   * Falls back to English ('en') if the key is not found in the requested language.
-   * If the key is still not found, returns the key itself as a fallback.
-   *
-   * @param lang - The target locale for translation.
-   * @param key - The translation key, which can be a nested path separated by dots.
-   * @returns The translated string or the key itself if translation is not found.
-   */
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  public __(lang: Locale, key: string): string {
-    logger.debug(`Translating ${key} in ${lang}`);
-
-    const keys = key.split('.');
-
-    /**
-     * Helper function to recursively retrieve the translation value from the translations object.
-     *
-     * @param localeTranslations - The translations object for a specific locale.
-     * @param keys - An array of keys representing the path to the desired translation.
-     * @returns The translated string if found, otherwise undefined.
-     */
-    const getTranslation = (locale: Translations | string | undefined): string | Translations | undefined => {
-      let result: Translations | string | undefined = locale;
-      for (const k of keys) {
-        if (result && typeof result === 'object' && k in result) {
-          result = result[k];
-        } else {
-          return undefined;
+  public async init(localesPath = path.join(__dirname, '../../locales')): Promise<void> {
+    await Promise.all(
+      this.availableLocales.map(async locale => {
+        try {
+          const filePath = path.join(localesPath, `${locale}.json`);
+          const fileContent = await fs.readFile(filePath, 'utf8');
+          const nestedTranslations = JSON.parse(fileContent);
+          this.translationsByLocale[locale] = this.flattenTranslations(nestedTranslations);
+        } catch (error) {
+          logger.error(`Failed to load locale '${locale}':`, error);
         }
+      })
+    );
+  }
+
+  public translate(locale: Locale, key: string, variables?: Record<string, string>): string {
+    const translation = this.translationsByLocale[locale][key] ?? this.translationsByLocale.en[key] ?? key;
+
+    return variables
+      ? translation.replace(/\{(\w+)\}/g, (_, varName) => variables[varName] ?? `{${varName}}`)
+      : translation;
+  }
+
+  private flattenTranslations(obj: Record<string, string | Record<string, unknown>>, prefix = ''): FlatTranslations {
+    const flattened: FlatTranslations = {};
+
+    for (const [key, value] of Object.entries(obj)) {
+      const fullKey = prefix ? `${prefix}.${key}` : key;
+
+      if (typeof value === 'string') {
+        flattened[fullKey] = value;
+      } else if (typeof value === 'object' && value !== null) {
+        Object.assign(
+          flattened,
+          this.flattenTranslations(value as Record<string, string | Record<string, unknown>>, fullKey)
+        );
       }
-      return result;
-    };
+    }
 
-    // Try the requested language, then fall back to 'en'
-    const translation = getTranslation(this.locales[lang]) ?? getTranslation(this.locales.en);
-
-    // Return the translation if it's a string, otherwise return the key as fallback
-    return typeof translation === 'string' ? translation : key;
+    return flattened;
   }
 }
-
-export default new I18n();

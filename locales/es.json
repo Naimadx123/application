@@ -1,7 +1,25 @@
 {
   "commands": {
+    "info": {
+      "user": {
+        "title": "Información del usuario",
+        "fields": {
+          "general": "General",
+          "nickname": "Apodo",
+          "username": "Nombre de usuario",
+          "createdAt": "Creado el",
+          "joinedAt": "Unido el",
+          "roles": "Roles",
+          "member": "Miembro"
+        },
+        "buttons": {
+          "avatar": "URL del avatar",
+          "user": "URL del usuario"
+        }
+      }
+    },
     "ping": {
-      "success": "¡Pong!",
+      "response": "¡Pong!",
       "fields": {
         "websocket": "Websocket",
         "database": "Base de datos",
@@ -16,6 +34,41 @@
       "success": ":flag_es: Idioma cambiado a Español",
       "error": "No se pudo cambiar el idioma",
       "cooldown": "El idioma en este servidor se ha cambiado recientemente, por favor espera antes de cambiarlo nuevamente"
+    },
+    "cobalt": {
+      "status": {
+        "downloading": "Descargando medios desde la URL",
+        "downloadComplete": "Medios descargados en {time}",
+        "noFiles": "No hay archivos para exportar",
+        "fileTooLarge": "El archivo supera el límite de 10 MB ({size})"
+      },
+      "fields": {
+        "files": "Archivos",
+        "size": "Tamaño"
+      },
+      "apiErrors": {
+        "generic": "Ocurrió un error en el servidor. Intenta de nuevo, y si el problema persiste, contáctanos.",
+        "rate_exceeded": "El cliente ha sido limitado en la cantidad de solicitudes, por favor intenta nuevamente en unos segundos.",
+        "capacity": "El servidor está experimentando una carga alta, por favor intenta nuevamente en unos segundos.",
+        "service_unsupported": "Este servidor no admite el servicio que estás tratando de usar.",
+        "service_disabled": "El servicio al que estás intentando acceder ha sido deshabilitado por el servidor.",
+        "link_invalid": "El enlace que proporcionaste no es válido. Por favor, verifica el enlace.",
+        "link_unsupported": "El enlace que proporcionaste no es reconocido. Por favor, revisa el enlace e intenta nuevamente.",
+        "fetch_fail": "Ocurrió un error desconocido al intentar obtener los medios. Asegúrate de que el enlace sea correcto.",
+        "fetch_critical": "El servicio al que intentas acceder está devolviendo datos inesperados. Intenta nuevamente más tarde.",
+        "fetch_empty": "El servicio devolvió una respuesta vacía. Por favor, intenta nuevamente más tarde.",
+        "fetch_rate": "El servidor ha sido limitado por la cantidad de solicitudes de servicio que estás intentando acceder. Por favor, intenta nuevamente más tarde.",
+        "content_too_long": "El contenido que intentas descargar es demasiado largo. Intenta con un video más corto.",
+        "content_video_unavailable": "El video que intentas descargar está bloqueado por región o por el servicio.",
+        "content_video_live": "El video que intentas descargar está en vivo, y los videos en vivo no pueden ser descargados.",
+        "content_video_age": "El video que intentas descargar está restringido por edad y no puede ser accesible.",
+        "content_video_private": "El video que intentas descargar es privado. Asegúrate de que sea público o no listado.",
+        "content_video_region": "El video que intentas descargar está restringido por región.",
+        "youtube_decipher": "Cobalt no pudo descifrar el video. Intenta nuevamente más tarde.",
+        "youtube_login": "YouTube ha marcado el servidor como un bot. Intenta nuevamente más tarde y, si el problema persiste, contáctanos.",
+        "youtube_token_expired": "El token de YouTube ha expirado. Intenta nuevamente en unos segundos y, si el problema persiste, contáctanos.",
+        "youtube_no_hls_streams": "El video que intentas descargar no tiene flujos HLS disponibles."
+      }
     }
   }
 }

@@ -1,8 +1,8 @@
-import { Event } from '~/structures';
 import type { Interaction } from 'discord.js';
 import { client } from '~/index';
-import i18n, { type Locale } from '~/lib/i18n';
-import logger from '~/lib/logger';
+import { type Locale } from '~/lib/i18n';
+import { logger } from '~/lib/logger';
+import { Event } from '~/structures/event';
 
 export default class InteractionCreate extends Event {
   public constructor() {
@@ -41,6 +41,10 @@ export default class InteractionCreate extends Event {
       if (guild) locale = guild.locale.toLowerCase();
     }
 
-    await command.run(interaction, key => i18n.__(locale as Locale, key));
+    await command
+      .run(interaction, (key: string, vars?: Record<string, string>) =>
+        client.i18n.translate(locale as Locale, key, vars)
+      )
+      .catch(err => logger.error(err));
   }
 }

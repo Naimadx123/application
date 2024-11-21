@@ -1,96 +1,61 @@
 import { Collection, Client as DiscordClient, type ClientOptions } from 'discord.js';
 
 import path from 'path';
-import fs from 'fs/promises';
 
+import { PrismaClient } from '@prisma/client';
+import { logger } from '~/lib/logger';
+import { getFiles } from '~/lib/utils';
 import type { Command } from '~/structures/command';
 import type { Event } from './event';
-import logger from '~/lib/logger';
-import { PrismaClient } from '@prisma/client';
+import { Cobalt } from '~/lib/cobalt';
+import { I18n } from '~/lib/i18n';
 
 export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
-  /**
-   * Prisma client
-   */
   public readonly prisma = new PrismaClient();
-
-  /**
-   * Collection of commands.
-   */
+  public readonly i18n = new I18n();
+  public readonly cobalt = new Cobalt();
   public readonly commands = new Collection<string, Command>();
 
   public constructor(options: ClientOptions) {
     super(options);
   }
 
-  public async registerEvents(): Promise<void> {
-    logger.info('Registering events...');
+  private async registerItems<T>(dir: string, extension: string, handler: (item: T) => void): Promise<void> {
+    const files = await getFiles(dir, extension);
+    await Promise.all(
+      files.map(async file => {
+        const module = await import(file);
+        const item: T = new module.default();
+        handler(item);
+      })
+    );
+  }
 
-    const eventsDir = path.join(__dirname, '..', 'events');
-
-    const eventFiles = await this.getFiles(eventsDir, '.ts');
-
-    for (const file of eventFiles) {
-      const eventModule = await import(file);
-      const event: Event = new eventModule.default();
-
-      if (event) {
-        if (event.once) {
-          this.once(event.name, (...args) => event.run(...args));
-        } else {
-          this.on(event.name, (...args) => event.run(...args));
-        }
-      }
-    }
-
+  private async registerEvents(): Promise<void> {
+    await this.registerItems<Event>(path.join(__dirname, '..', 'events'), '.ts', event => {
+      const handler = (...args: Parameters<Event['run']>) => event.run(...args);
+      event.once ? this.once(event.name, handler) : this.on(event.name, handler);
+    });
     logger.info('Events have been registered!');
   }
 
-  public async registerCommands(): Promise<void> {
-    logger.info('Registering commands...');
-
-    const commandsDir = path.join(__dirname, '..', 'commands');
-
-    const commandFiles = await this.getFiles(commandsDir, '.ts');
-
-    for (const file of commandFiles) {
-      const commandModule = await import(file);
-      const command: Command = new commandModule.default();
-
-      if (command) {
-        this.commands.set(command.data.name, command);
-      }
-    }
-
+  private async registerCommands(): Promise<void> {
+    await this.registerItems<Command>(path.join(__dirname, '..', 'commands'), '.ts', command => {
+      this.commands.set(command.data.name, command);
+    });
     this.on('ready', () => {
       this.application?.commands.set(this.commands.map(command => command.data));
       logger.info('Commands have been registered!');
     });
   }
 
-  private async getFiles(dir: string, extension: string): Promise<string[]> {
-    let files: string[] = [];
-    const items = await fs.readdir(dir, { withFileTypes: true });
-
-    for (const item of items) {
-      const itemPath = path.join(dir, item.name);
-
-      if (item.isDirectory()) {
-        files = files.concat(await this.getFiles(itemPath, extension));
-      } else if (item.isFile() && item.name.endsWith(extension)) {
-        files.push(itemPath);
-      }
-    }
-
-    return files;
-  }
-
   public async init(): Promise<void> {
-    await this.registerEvents();
-    await this.registerCommands();
-
-    await this.login().catch(error => {
-      console.error(error);
-    });
+    try {
+      await Promise.all([this.registerEvents(), this.registerCommands(), this.i18n.init()]);
+      await this.login();
+    } catch (error) {
+      console.log(error);
+      process.exit(1);
+    }
   }
 }
