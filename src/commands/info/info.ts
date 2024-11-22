@@ -16,8 +16,8 @@ export default class Info extends Command {
   public constructor() {
     super(
       new SlashCommandBuilder()
-        .setContexts(InteractionContextType.Guild, InteractionContextType.BotDM, InteractionContextType.PrivateChannel)
-        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
+        .setContexts(InteractionContextType.Guild)
+        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
         .setName('info')
         .setDescription('Info command')
         .addSubcommand(subcommand =>
