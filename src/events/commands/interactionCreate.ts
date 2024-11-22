@@ -41,10 +41,8 @@ export default class InteractionCreate extends Event {
       if (guild) locale = guild.locale.toLowerCase();
     }
 
-    await command
-      .run(interaction, (key: string, vars?: Record<string, string>) =>
-        client.i18n.translate(locale as Locale, key, vars)
-      )
-      .catch(err => logger.error(err));
+    await command.run(interaction, (key: string, vars?: Record<string, string>) =>
+      client.i18n.translate(locale as Locale, key, vars)
+    );
   }
 }

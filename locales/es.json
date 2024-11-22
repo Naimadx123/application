@@ -18,19 +18,20 @@
         }
       },
       "server": {
-        "buttons": {
-          "logo": "URL del avatar"
-        },
+        "title": "Información del servidor",
         "fields": {
           "general": "General",
           "createdAt": "Creado el",
-          "owner": "Dueño",
+          "owner": "Propietario",
           "statistics": "Estadísticas",
-          "boosts": "Boosts",
+          "boosts": "Mejoras",
           "members": "Miembros",
           "verificationLevel": "Nivel de verificación"
         },
-        "noGuild": "No estás en ningún servidor"
+        "buttons": {
+          "icon": "URL del icono"
+        },
+        "noGuild": "No estás en ninguna guild"
       }
     },
     "ping": {
