@@ -29,13 +29,10 @@ export default class Info extends Command {
               'es-ES': 'Revisa la información de esta aplicación.',
             })
             .addStringOption(option =>
-              option
-                .setName('app')
-                .setDescription('The app you want to check')
-                .setDescriptionLocalizations({
-                  pl: 'Aplikacja, którą chcesz sprawdzić.',
-                  'es-ES': 'La aplicación que quieres comprobar.',
-                })
+              option.setName('app').setDescription('The app you want to check').setDescriptionLocalizations({
+                pl: 'Aplikacja, którą chcesz sprawdzić.',
+                'es-ES': 'La aplicación que quieres comprobar.',
+              })
             )
         )
         .addSubcommand(subcommand =>
@@ -181,11 +178,13 @@ export default class Info extends Command {
         break;
       }
 
-      case "app": {
-        const appId = interaction.options.getString("app", false) || interaction.client.application.id;      
+      case 'app': {
+        const appId = interaction.options.getString('app', false) || interaction.client.application.id;
 
-        const data = await fetch(`https://discord.com/api/v10/oauth2/applications/${appId}/rpc`).then(res => res.json());
-        if(!data) {
+        const data = await fetch(`https://discord.com/api/v10/oauth2/applications/${appId}/rpc`).then(res =>
+          res.json()
+        );
+        if (!data) {
           await interaction.reply({
             embeds: [new Embed().setDefaults(interaction.user).setDescription($('commands.info.app.noApp'))],
           });
@@ -222,12 +221,11 @@ export default class Info extends Command {
             },
             {
               name: $('commands.info.app.fields.tags'),
-              value: data.tags.join(', '), 
-            }
-          ])
+              value: data.tags.join(', '),
+            },
+          ]);
 
-        interaction.reply({ embeds: [embed] })
-
+        interaction.reply({ embeds: [embed] });
 
         break;
       }
