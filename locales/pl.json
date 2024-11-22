@@ -18,19 +18,20 @@
         }
       },
       "server": {
-        "buttons": {
-          "logo": "URL awatara"
-        },
+        "title": "Informacje o serwerze",
         "fields": {
           "general": "Ogólne",
           "createdAt": "Utworzono",
           "owner": "Właściciel",
           "statistics": "Statystyki",
-          "boosts": "Boosty",
-          "members": "Członków",
+          "boosts": "Wzmocnienia",
+          "members": "Członkowie",
           "verificationLevel": "Poziom weryfikacji"
         },
-        "noGuild": "Nie jesteś w żadnym serwerze"
+        "buttons": {
+          "icon": "URL ikony"
+        },
+        "noGuild": "Nie należysz do żadnej gildii"
       }
     },
     "ping": {

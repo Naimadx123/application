@@ -18,9 +18,7 @@
         }
       },
       "server": {
-        "buttons": {
-          "logo": "Avatar URL"
-        },
+        "title": "Server info",
         "fields": {
           "general": "General",
           "createdAt": "Created at",
@@ -29,6 +27,9 @@
           "boosts": "Boosts",
           "members": "Members",
           "verificationLevel": "Verification Level"
+        },
+        "buttons": {
+          "icon": "Icon URL"
         },
         "noGuild": "You are not in any guild"
       }
