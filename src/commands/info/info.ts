@@ -22,6 +22,24 @@ export default class Info extends Command {
         .setDescription('Info command')
         .addSubcommand(subcommand =>
           subcommand
+            .setName('app')
+            .setDescription('Check informations about this app.')
+            .setDescriptionLocalizations({
+              pl: 'Sprawdź informacje o tej aplikacji.',
+              'es-ES': 'Revisa la información de esta aplicación.',
+            })
+            .addStringOption(option =>
+              option
+                .setName('app')
+                .setDescription('The app you want to check')
+                .setDescriptionLocalizations({
+                  pl: 'Aplikacja, którą chcesz sprawdzić.',
+                  'es-ES': 'La aplicación que quieres comprobar.',
+                })
+            )
+        )
+        .addSubcommand(subcommand =>
+          subcommand
             .setName('server')
             .setDescription('Check informations about the server.')
             .setDescriptionLocalizations({
@@ -152,6 +170,57 @@ export default class Info extends Command {
         );
 
         await interaction.reply({ embeds: [embed], components: [row] });
+        break;
+      }
+
+      case "app": {
+        const appId = interaction.options.getString("app", false) || interaction.client.application.id;      
+
+        const data = await fetch(`https://discord.com/api/v10/oauth2/applications/${appId}/rpc`).then(res => res.json());
+        if(!data) {
+          await interaction.reply({
+            embeds: [new Embed().setDefaults(interaction.user).setDescription($('commands.info.app.noApp'))],
+          });
+          return;
+        }
+
+        const embed = new Embed()
+          .setDefaults(interaction.user)
+          .setThumbnail(data.icon || null)
+          .setTitle(data.name || '')
+          .setDescription(data.description || '')
+          .setURL(`https://discord.com/developers/applications/${appId}`)
+          .setFields([
+            {
+              name: 'ID',
+              value: appId,
+            },
+            {
+              name: $('commands.info.app.fields.general'),
+              value: [
+                `${$('commands.info.app.fields.verified')}: ${data.is_verified ? '<:greendot:1267111982117421097>' : '<:reddot:1267111988907999243>'}`,
+                `${$('commands.info.app.fields.monetized')}: ${data.is_monetized ? '<:greendot:1267111982117421097>' : '<:reddot:1267111988907999243>'}`,
+                `${$('commands.info.app.fields.discoverable')}: ${data.is_discoverable ? '<:greendot:1267111982117421097>' : '<:reddot:1267111988907999243>'}`,
+                `${$('commands.info.app.fields.public')}: ${data.bot_public ? '<:greendot:1267111982117421097>' : '<:reddot:1267111988907999243>'}`,
+              ].join('\n'),
+            },
+            {
+              name: $('commands.info.app.fields.links'),
+              value: [
+                `[${$('commands.info.app.fields.invite')}](https://discord.com/api/oauth2/authorize?client_id=${appId}&permissions=8&scope=applications.commands)`,
+                `[${$('commands.info.app.fields.tos')}](${data.terms_of_service_url})`,
+                `[${$('commands.info.app.fields.privacy_policy')}](${data.privacy_policy_url})`,
+              ].join('\n'),
+            },
+            {
+              name: $('commands.info.app.fields.tags'),
+              value: data.tags.join(', '), 
+            }
+          ])
+
+        interaction.reply({ embeds: [embed] })
+
+
         break;
       }
     }

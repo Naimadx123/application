@@ -31,6 +31,21 @@
           "verificationLevel": "Verification Level"
         },
         "noGuild": "You are not in any guild"
+      },
+      "app": {
+        "noApp": "This ID doesn't match any app",
+        "fields": {
+          "general": "General",
+          "verified": "Verified",
+          "monetized": "Monetized",
+          "discoverable": "Discoverable",
+          "public": "Public",
+          "tos": "TOS",
+          "privacy_policy": "Privacy Policy",
+          "invite": "Invite",
+          "tags": "Tags"
+
+        }
       }
     },
     "ping": {
