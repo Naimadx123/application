@@ -22,15 +22,6 @@ export default class Info extends Command {
         .setDescription('Info command')
         .addSubcommand(subcommand =>
           subcommand
-            .setName('server')
-            .setDescription('Check informations about the server.')
-            .setDescriptionLocalizations({
-              pl: 'Sprawdź informacje o serwerze.',
-              'es-ES': 'Revisa la información del servidor.',
-            })
-        )
-        .addSubcommand(subcommand =>
-          subcommand
             .setName('user')
             .setDescription('Check informations about a user.')
             .setDescriptionLocalizations({
@@ -43,6 +34,15 @@ export default class Info extends Command {
                 'es-ES': 'El usuario que quieres comprobar.',
               })
             )
+        )
+        .addSubcommand(subcommand =>
+          subcommand
+            .setName('server')
+            .setDescription('Check informations about the server.')
+            .setDescriptionLocalizations({
+              pl: 'Sprawdź informacje o serwerze.',
+              'es-ES': 'Revisa la información del servidor.',
+            })
         )
     );
   }
