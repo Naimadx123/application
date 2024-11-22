@@ -110,6 +110,7 @@ export default class Info extends Command {
 
         break;
       }
+
       case 'server': {
         if (!interaction.guild) {
           await interaction.reply({
@@ -119,12 +120,18 @@ export default class Info extends Command {
         }
 
         const embed = new Embed()
-          .setDefaults(interaction.user)
-          .setTitle(interaction.guild.name)
+          .setDefaults()
+          .setAuthor({
+            name: interaction.guild.name,
+            iconURL: interaction.guild.iconURL() || undefined,
+            url: `https://discord.com/guilds/${interaction.guild.id}`,
+          })
+          .setTitle($('commands.info.server.title'))
           .setThumbnail(interaction.guild.iconURL() || null)
+          .setImage(interaction.guild.bannerURL({ size: 4096 }) || null)
           .setFields([
             {
-              name: `ID`,
+              name: 'ID',
               value: interaction.guild.id,
             },
             {
@@ -147,8 +154,9 @@ export default class Info extends Command {
         const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder()
             .setStyle(ButtonStyle.Link)
-            .setLabel(`${$('commands.info.server.buttons.logo')}`)
-            .setURL(interaction.guild.iconURL() ?? 'https://discord.com/assets/847541504914fd33810e70a0ea73177e.ico')
+            .setLabel($('commands.info.server.buttons.icon'))
+            .setURL(interaction.guild.iconURL() || 'https://meteors.cc/')
+            .setDisabled(interaction.guild.iconURL() === null)
         );
 
         await interaction.reply({ embeds: [embed], components: [row] });
