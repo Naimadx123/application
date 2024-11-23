@@ -41,10 +41,11 @@
           "monetized": "Monetized",
           "discoverable": "Discoverable",
           "public": "Public",
-          "tos": "TOS",
+          "tos": "Terms of Service",
           "privacy_policy": "Privacy Policy",
           "invite": "Invite",
-          "tags": "Tags"
+          "tags": "Tags",
+          "links": "Links"
         }
       }
     },

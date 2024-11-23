@@ -193,10 +193,8 @@ export default class Info extends Command {
 
         const embed = new Embed()
           .setDefaults(interaction.user)
-          .setThumbnail(data.icon || null)
-          .setTitle(data.name || '')
-          .setDescription(data.description || '')
-          .setURL(`https://discord.com/developers/applications/${appId}`)
+          .setThumbnail(`https://cdn.discordapp.com/avatars/${appId}/${data.icon}?size=1024`)
+          .setTitle(data.name)
           .setFields([
             {
               name: 'ID',
@@ -215,15 +213,30 @@ export default class Info extends Command {
               name: $('commands.info.app.fields.links'),
               value: [
                 `[${$('commands.info.app.fields.invite')}](https://discord.com/api/oauth2/authorize?client_id=${appId}&permissions=8&scope=applications.commands)`,
-                `[${$('commands.info.app.fields.tos')}](${data.terms_of_service_url})`,
-                `[${$('commands.info.app.fields.privacy_policy')}](${data.privacy_policy_url})`,
-              ].join('\n'),
+                ...(data.terms_of_service_url
+                  ? [`[${$('commands.info.app.fields.tos')}](${data.terms_of_service_url})`]
+                  : []),
+                ...(data.privacy_policy_url
+                  ? [`[${$('commands.info.app.fields.privacy_policy')}](${data.privacy_policy_url})`]
+                  : []),
+              ]
+                .filter(Boolean)
+                .join('\n'),
             },
+          ]);
+
+        if (data.tags) {
+          embed.addFields([
             {
               name: $('commands.info.app.fields.tags'),
               value: data.tags.join(', '),
             },
           ]);
+        }
+
+        if (data.description) {
+          embed.setDescription(data.description);
+        }
 
         interaction.reply({ embeds: [embed] });
 
