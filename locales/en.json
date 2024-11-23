@@ -47,6 +47,20 @@
           "tags": "Tags",
           "links": "Links"
         }
+      },
+      "role": {
+        "noRole": "This ID doesn't match any role",
+        "fields": {
+          "general": "General",
+          "name": "Name",
+          "color": "Color",
+          "hoist": "Hoist",
+          "position": "Position",
+          "members": "Members",
+          "other": "Other",
+          "created": "Created",
+          "mentionable": "Mentionable"
+        }
       }
     },
     "ping": {

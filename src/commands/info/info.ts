@@ -22,6 +22,25 @@ export default class Info extends Command {
         .setDescription('Info command')
         .addSubcommand(subcommand =>
           subcommand
+            .setName('role')
+            .setDescription('Check informations about a role.')
+            .setDescriptionLocalizations({
+              pl: 'Sprawdź informacje o roli.',
+              'es-ES': 'Revisa la información de un rol.',
+            })
+            .addRoleOption(option =>
+              option
+                .setName('role')
+                .setRequired(true)
+                .setDescription('The role you want to check')
+                .setDescriptionLocalizations({
+                  pl: 'Rola, która chcesz sprawdzić.',
+                  'es-ES': 'El rol que quieres comprobar.',
+                })
+            )
+        )
+        .addSubcommand(subcommand =>
+          subcommand
             .setName('app')
             .setDescription('Check informations about this app.')
             .setDescriptionLocalizations({
@@ -237,6 +256,40 @@ export default class Info extends Command {
         if (data.description) {
           embed.setDescription(data.description);
         }
+
+        interaction.reply({ embeds: [embed] });
+
+        break;
+      }
+      case 'role': {
+        const role = interaction.options.getRole('role', true);
+
+        const embed = new Embed()
+          .setDefaults(interaction.user)
+          .setTitle(role.name)
+          .setFields([
+            {
+              name: 'ID',
+              value: role.id,
+            },
+            {
+              name: $('commands.info.role.fields.general'),
+              value: [
+                `${$('commands.info.role.fields.name')}: ${role.name}`,
+                `${$('commands.info.role.fields.position')}: ${role.position}`,
+                `${$('commands.info.role.fields.members')}: ${role.members.size}`,
+                `${$('commands.info.role.fields.created')}: <t:${Math.floor(role.createdTimestamp / 1000)}:R>`,
+              ].join('\n'),
+            },
+            {
+              name: $('commands.info.role.fields.other'),
+              value: [
+                `${$('commands.info.role.fields.color')}: #${role.color.toString(16).padStart(6, '0')}`,
+                `${$('commands.info.role.fields.hoist')}: ${role.hoist ? '<:greendot:1267111982117421097>' : '<:reddot:1267111988907999243>'}`,
+                `${$('commands.info.role.fields.mentionable')}: ${role.mentionable ? '<:greendot:1267111982117421097>' : '<:reddot:1267111988907999243>'}`,
+              ].join('\n'),
+            },
+          ]);
 
         interaction.reply({ embeds: [embed] });
 
