@@ -19,69 +19,102 @@ export default class Info extends Command {
         .setContexts(InteractionContextType.Guild)
         .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
         .setName('info')
-        .setDescription('Info command')
+        .setDescription('...')
         .addSubcommand(subcommand =>
           subcommand
-            .setName('role')
-            .setDescription('Check informations about a role.')
+            .setName('user')
+            .setDescription('Get detailed information about a user.')
             .setDescriptionLocalizations({
-              pl: 'Sprawdź informacje o roli.',
-              'es-ES': 'Revisa la información de un rol.',
+              pl: 'Uzyskaj szczegółowe informacje o użytkowniku.',
+              'es-ES': 'Obtén información detallada sobre un usuario.',
             })
-            .addRoleOption(option =>
+            .addUserOption(option =>
               option
-                .setName('role')
-                .setRequired(true)
-                .setDescription('The role you want to check')
+                .setName('user')
+                .setNameLocalizations({
+                  pl: 'użytkownik',
+                  'es-ES': 'usuario',
+                })
+                .setDescription('Select the user to retrieve information about.')
                 .setDescriptionLocalizations({
-                  pl: 'Rola, która chcesz sprawdzić.',
-                  'es-ES': 'El rol que quieres comprobar.',
+                  pl: 'Wybierz użytkownika, aby uzyskać informacje.',
+                  'es-ES': 'Selecciona al usuario para obtener información.',
                 })
             )
         )
         .addSubcommand(subcommand =>
           subcommand
-            .setName('app')
-            .setDescription('Check informations about this app.')
+            .setName('server')
+            .setNameLocalizations({
+              pl: 'serwer',
+              'es-ES': 'servidor',
+            })
+            .setDescription('Get detailed information about the server.')
             .setDescriptionLocalizations({
-              pl: 'Sprawdź informacje o tej aplikacji.',
-              'es-ES': 'Revisa la información de esta aplicación.',
+              pl: 'Uzyskaj szczegółowe informacje o serwerze.',
+              'es-ES': 'Obtén información detallada sobre el servidor.',
+            })
+        )
+        .addSubcommand(subcommand =>
+          subcommand
+            .setName('role')
+            .setNameLocalizations({
+              pl: 'rola',
+              'es-ES': 'rol',
+            })
+            .setDescription('Get detailed information about a role.')
+            .setDescriptionLocalizations({
+              pl: 'Uzyskaj szczegółowe informacje o roli.',
+              'es-ES': 'Obtén información detallada sobre un rol.',
+            })
+            .addRoleOption(option =>
+              option
+                .setName('role')
+                .setNameLocalizations({
+                  pl: 'rola',
+                  'es-ES': 'rol',
+                })
+                .setDescription('Select the role to retrieve information about.')
+                .setDescriptionLocalizations({
+                  pl: 'Wybierz rolę, aby uzyskać informacje.',
+                  'es-ES': 'Selecciona el rol para obtener información.',
+                })
+                .setRequired(true)
+            )
+        )
+        .addSubcommand(subcommand =>
+          subcommand
+            .setName('application')
+            .setNameLocalizations({
+              pl: 'aplikacja',
+              'es-ES': 'aplicación',
+            })
+            .setDescription('Get detailed information about an application.')
+            .setDescriptionLocalizations({
+              pl: 'Uzyskaj szczegółowe informacje o aplikacji.',
+              'es-ES': 'Obtén información detallada sobre una aplicación.',
             })
             .addStringOption(option =>
-              option.setName('app').setDescription('The app you want to check').setDescriptionLocalizations({
-                pl: 'Aplikacja, którą chcesz sprawdzić.',
-                'es-ES': 'La aplicación que quieres comprobar.',
-              })
+              option
+                .setName('application')
+                .setNameLocalizations({
+                  pl: 'aplikacja',
+                  'es-ES': 'aplicación',
+                })
+                .setDescription('Identifier of the application.')
+                .setDescriptionLocalizations({
+                  pl: 'Identyfikator aplikacji.',
+                  'es-ES': 'Identificador de la aplicación.',
+                })
             )
-        )
-        .addSubcommand(subcommand =>
-          subcommand
-            .setName('user')
-            .setDescription('Check informations about a user.')
-            .setDescriptionLocalizations({
-              pl: 'Sprawdź informacje o użytkowniku.',
-              'es-ES': 'Revisa la información de un usuario.',
-            })
-            .addUserOption(option =>
-              option.setName('user').setDescription('The user you want to check').setDescriptionLocalizations({
-                pl: 'Użytkownik, którego chcesz sprawdzić.',
-                'es-ES': 'El usuario que quieres comprobar.',
-              })
-            )
-        )
-        .addSubcommand(subcommand =>
-          subcommand
-            .setName('server')
-            .setDescription('Check informations about the server.')
-            .setDescriptionLocalizations({
-              pl: 'Sprawdź informacje o serwerze.',
-              'es-ES': 'Revisa la información del servidor.',
-            })
         )
     );
   }
 
   public async run(interaction: ChatInputCommandInteraction, $: I18nFunction): Promise<void> {
+    const getStatusIcon = (status: boolean) =>
+      status ? '<:greendot:1267111982117421097>' : '<:reddot:1267111988907999243>';
+
     switch (interaction.options.getSubcommand()) {
       case 'user': {
         const user = await interaction.client.users.fetch(interaction.options.getUser('user') || interaction.user);
@@ -197,70 +230,6 @@ export default class Info extends Command {
         break;
       }
 
-      case 'app': {
-        const appId = interaction.options.getString('app', false) || interaction.client.application.id;
-
-        const data = await fetch(`https://discord.com/api/v10/oauth2/applications/${appId}/rpc`).then(res =>
-          res.json()
-        );
-        if (!data) {
-          await interaction.reply({
-            embeds: [new Embed().setDefaults(interaction.user).setDescription($('commands.info.app.noApp'))],
-          });
-          return;
-        }
-
-        const embed = new Embed()
-          .setDefaults(interaction.user)
-          .setThumbnail(`https://cdn.discordapp.com/avatars/${appId}/${data.icon}?size=1024`)
-          .setTitle(data.name)
-          .setFields([
-            {
-              name: 'ID',
-              value: appId,
-            },
-            {
-              name: $('commands.info.app.fields.general'),
-              value: [
-                `${$('commands.info.app.fields.verified')}: ${data.is_verified ? '<:greendot:1267111982117421097>' : '<:reddot:1267111988907999243>'}`,
-                `${$('commands.info.app.fields.monetized')}: ${data.is_monetized ? '<:greendot:1267111982117421097>' : '<:reddot:1267111988907999243>'}`,
-                `${$('commands.info.app.fields.discoverable')}: ${data.is_discoverable ? '<:greendot:1267111982117421097>' : '<:reddot:1267111988907999243>'}`,
-                `${$('commands.info.app.fields.public')}: ${data.bot_public ? '<:greendot:1267111982117421097>' : '<:reddot:1267111988907999243>'}`,
-              ].join('\n'),
-            },
-            {
-              name: $('commands.info.app.fields.links'),
-              value: [
-                `[${$('commands.info.app.fields.invite')}](https://discord.com/api/oauth2/authorize?client_id=${appId}&permissions=8&scope=applications.commands)`,
-                ...(data.terms_of_service_url
-                  ? [`[${$('commands.info.app.fields.tos')}](${data.terms_of_service_url})`]
-                  : []),
-                ...(data.privacy_policy_url
-                  ? [`[${$('commands.info.app.fields.privacy_policy')}](${data.privacy_policy_url})`]
-                  : []),
-              ]
-                .filter(Boolean)
-                .join('\n'),
-            },
-          ]);
-
-        if (data.tags) {
-          embed.addFields([
-            {
-              name: $('commands.info.app.fields.tags'),
-              value: data.tags.join(', '),
-            },
-          ]);
-        }
-
-        if (data.description) {
-          embed.setDescription(data.description);
-        }
-
-        interaction.reply({ embeds: [embed] });
-
-        break;
-      }
       case 'role': {
         const role = interaction.options.getRole('role', true);
 
@@ -290,6 +259,58 @@ export default class Info extends Command {
               ].join('\n'),
             },
           ]);
+
+        interaction.reply({ embeds: [embed] });
+
+        break;
+      }
+
+      case 'application': {
+        const applicationId = interaction.options.getString('application') || interaction.client.application.id;
+        const data = await fetch(`https://discord.com/api/v10/oauth2/applications/${applicationId}/rpc`).then(res =>
+          res.json()
+        );
+
+        if (!data) {
+          interaction.reply({
+            embeds: [new Embed().setDefaults(interaction.user).setDescription($('commands.info.app.noApp'))],
+          });
+          return;
+        }
+
+        const formatField = (label: string, value: boolean) =>
+          `${$(`commands.info.app.fields.${label}`)}: ${getStatusIcon(value)}`;
+
+        const embed = new Embed()
+          .setDefaults(interaction.user)
+          .setThumbnail(`https://cdn.discordapp.com/avatars/${applicationId}/${data.icon}?size=1024`)
+          .setTitle(data.name)
+          .setFields([
+            { name: 'ID', value: applicationId },
+            {
+              name: $('commands.info.app.fields.general'),
+              value: ['verified', 'monetized', 'discoverable', 'bot_public']
+                .map(key => formatField(key, data[`is_${key}`] || data[key]))
+                .join('\n'),
+            },
+            {
+              name: $('commands.info.app.fields.links'),
+              value: [
+                `[${$('commands.info.app.fields.invite')}](https://discord.com/api/oauth2/authorize?client_id=${applicationId}&permissions=8&scope=applications.commands)`,
+                data.terms_of_service_url && `[${$('commands.info.app.fields.tos')}](${data.terms_of_service_url})`,
+                data.privacy_policy_url &&
+                  `[${$('commands.info.app.fields.privacy_policy')}](${data.privacy_policy_url})`,
+              ].join('\n'),
+            },
+          ]);
+
+        if (data.tags?.length) {
+          embed.addFields([{ name: $('commands.info.app.fields.tags'), value: data.tags.join(', ') }]);
+        }
+
+        if (data.description) {
+          embed.setDescription(data.description);
+        }
 
         interaction.reply({ embeds: [embed] });
 
