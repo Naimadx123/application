@@ -122,7 +122,7 @@ export default class Info extends Command {
 
         const embed = new Embed()
           .setDefaults(user)
-          .setTitle($('commands.info.user.title'))
+          .setTitle($('modules.info.user.title'))
           .setURL(`https://discord.com/users/${user.id}`)
           .setThumbnail(user.displayAvatarURL())
           .setImage((await user.fetch()).bannerURL({ size: 4096 }) || null)
@@ -132,8 +132,8 @@ export default class Info extends Command {
               value: user.id,
             },
             {
-              name: $('commands.info.user.fields.general'),
-              value: `${$('commands.info.user.fields.username')}: ${user.username}\n${$('commands.info.user.fields.createdAt')}: ${'<t:' + Math.floor(user.createdTimestamp / 1000) + ':R>' || 'N/a'}
+              name: $('modules.info.user.fields.general'),
+              value: `${$('modules.info.user.fields.username')}: ${user.username}\n${$('modules.info.user.fields.createdAt')}: ${'<t:' + Math.floor(user.createdTimestamp / 1000) + ':R>' || 'N/a'}
                   `,
             },
           ]);
@@ -152,11 +152,11 @@ export default class Info extends Command {
 
           embed.addFields([
             {
-              name: $('commands.info.user.fields.member'),
+              name: $('modules.info.user.fields.member'),
               value: [
-                `${$('commands.info.user.fields.joinedAt')}: <t:${Math.floor(member.joinedTimestamp! / 1000)}:R>`,
-                `${$('commands.info.user.fields.roles')}: ${rolesString}`,
-                `${$('commands.info.user.fields.nickname')}: ${member.nickname || 'N/a'}`,
+                `${$('modules.info.user.fields.joinedAt')}: <t:${Math.floor(member.joinedTimestamp! / 1000)}:R>`,
+                `${$('modules.info.user.fields.roles')}: ${rolesString}`,
+                `${$('modules.info.user.fields.nickname')}: ${member.nickname || 'N/a'}`,
               ].join('\n'),
             },
           ]);
@@ -165,11 +165,11 @@ export default class Info extends Command {
         const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder()
             .setStyle(ButtonStyle.Link)
-            .setLabel($('commands.info.user.buttons.avatar'))
+            .setLabel($('modules.info.user.buttons.avatar'))
             .setURL(user.displayAvatarURL()),
           new ButtonBuilder()
             .setStyle(ButtonStyle.Link)
-            .setLabel($('commands.info.user.buttons.user'))
+            .setLabel($('modules.info.user.buttons.user'))
             .setURL(`https://discord.com/users/${user.id}`)
         );
 
@@ -181,7 +181,7 @@ export default class Info extends Command {
       case 'server': {
         if (!interaction.guild) {
           await interaction.reply({
-            embeds: [new Embed().setDefaults(interaction.user).setDescription($('commands.info.server.noGuild'))],
+            embeds: [new Embed().setDefaults(interaction.user).setDescription($('modules.info.server.noGuild'))],
           });
           return;
         }
@@ -193,7 +193,7 @@ export default class Info extends Command {
             iconURL: interaction.guild.iconURL() || undefined,
             url: `https://discord.com/guilds/${interaction.guild.id}`,
           })
-          .setTitle($('commands.info.server.title'))
+          .setTitle($('modules.info.server.title'))
           .setThumbnail(interaction.guild.iconURL() || null)
           .setImage(interaction.guild.bannerURL({ size: 4096 }) || null)
           .setFields([
@@ -202,18 +202,18 @@ export default class Info extends Command {
               value: interaction.guild.id,
             },
             {
-              name: $('commands.info.server.fields.general'),
+              name: $('modules.info.server.fields.general'),
               value: [
-                `${$('commands.info.server.fields.createdAt')}: <t:${Math.floor(interaction.guild.createdTimestamp! / 1000)}:R>`,
-                `${$('commands.info.server.fields.owner')}: <@${interaction.guild.ownerId}>`,
+                `${$('modules.info.server.fields.createdAt')}: <t:${Math.floor(interaction.guild.createdTimestamp! / 1000)}:R>`,
+                `${$('modules.info.server.fields.owner')}: <@${interaction.guild.ownerId}>`,
               ].join('\n'),
             },
             {
-              name: $('commands.info.server.fields.statistics'),
+              name: $('modules.info.server.fields.statistics'),
               value: [
-                `${$('commands.info.server.fields.boosts')}: ${interaction.guild.premiumSubscriptionCount}`,
-                `${$('commands.info.server.fields.members')}: ${interaction.guild.memberCount}`,
-                `${$('commands.info.server.fields.verificationLevel')}: ${interaction.guild.verificationLevel}`,
+                `${$('modules.info.server.fields.boosts')}: ${interaction.guild.premiumSubscriptionCount}`,
+                `${$('modules.info.server.fields.members')}: ${interaction.guild.memberCount}`,
+                `${$('modules.info.server.fields.verificationLevel')}: ${interaction.guild.verificationLevel}`,
               ].join('\n'),
             },
           ]);
@@ -221,7 +221,7 @@ export default class Info extends Command {
         const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder()
             .setStyle(ButtonStyle.Link)
-            .setLabel($('commands.info.server.buttons.icon'))
+            .setLabel($('modules.info.server.buttons.icon'))
             .setURL(interaction.guild.iconURL() || 'https://meteors.cc/')
             .setDisabled(interaction.guild.iconURL() === null)
         );
@@ -242,20 +242,20 @@ export default class Info extends Command {
               value: role.id,
             },
             {
-              name: $('commands.info.role.fields.general'),
+              name: $('modules.info.role.fields.general'),
               value: [
-                `${$('commands.info.role.fields.name')}: ${role.name}`,
-                `${$('commands.info.role.fields.position')}: ${role.position}`,
-                `${$('commands.info.role.fields.members')}: ${role.members.size}`,
-                `${$('commands.info.role.fields.created')}: <t:${Math.floor(role.createdTimestamp / 1000)}:R>`,
+                `${$('modules.info.role.fields.name')}: ${role.name}`,
+                `${$('modules.info.role.fields.position')}: ${role.position}`,
+                `${$('modules.info.role.fields.members')}: ${role.members.size}`,
+                `${$('modules.info.role.fields.created')}: <t:${Math.floor(role.createdTimestamp / 1000)}:R>`,
               ].join('\n'),
             },
             {
-              name: $('commands.info.role.fields.other'),
+              name: $('modules.info.role.fields.other'),
               value: [
-                `${$('commands.info.role.fields.color')}: #${role.color.toString(16).padStart(6, '0')}`,
-                `${$('commands.info.role.fields.hoist')}: ${role.hoist ? '<:greendot:1267111982117421097>' : '<:reddot:1267111988907999243>'}`,
-                `${$('commands.info.role.fields.mentionable')}: ${role.mentionable ? '<:greendot:1267111982117421097>' : '<:reddot:1267111988907999243>'}`,
+                `${$('modules.info.role.fields.color')}: #${role.color.toString(16).padStart(6, '0')}`,
+                `${$('modules.info.role.fields.hoist')}: ${role.hoist ? '<:greendot:1267111982117421097>' : '<:reddot:1267111988907999243>'}`,
+                `${$('modules.info.role.fields.mentionable')}: ${role.mentionable ? '<:greendot:1267111982117421097>' : '<:reddot:1267111988907999243>'}`,
               ].join('\n'),
             },
           ]);
@@ -273,13 +273,13 @@ export default class Info extends Command {
 
         if (!data) {
           interaction.reply({
-            embeds: [new Embed().setDefaults(interaction.user).setDescription($('commands.info.app.noApp'))],
+            embeds: [new Embed().setDefaults(interaction.user).setDescription($('modules.info.app.noApp'))],
           });
           return;
         }
 
         const formatField = (label: string, value: boolean) =>
-          `${$(`commands.info.app.fields.${label}`)}: ${getStatusIcon(value)}`;
+          `${$(`modules.info.app.fields.${label}`)}: ${getStatusIcon(value)}`;
 
         const embed = new Embed()
           .setDefaults(interaction.user)
@@ -288,24 +288,24 @@ export default class Info extends Command {
           .setFields([
             { name: 'ID', value: applicationId },
             {
-              name: $('commands.info.app.fields.general'),
+              name: $('modules.info.app.fields.general'),
               value: ['verified', 'monetized', 'discoverable', 'bot_public']
                 .map(key => formatField(key, data[`is_${key}`] || data[key]))
                 .join('\n'),
             },
             {
-              name: $('commands.info.app.fields.links'),
+              name: $('modules.info.app.fields.links'),
               value: [
-                `[${$('commands.info.app.fields.invite')}](https://discord.com/api/oauth2/authorize?client_id=${applicationId}&permissions=8&scope=applications.commands)`,
-                data.terms_of_service_url && `[${$('commands.info.app.fields.tos')}](${data.terms_of_service_url})`,
+                `[${$('modules.info.app.fields.invite')}](https://discord.com/api/oauth2/authorize?client_id=${applicationId}&permissions=8&scope=applications.commands)`,
+                data.terms_of_service_url && `[${$('modules.info.app.fields.tos')}](${data.terms_of_service_url})`,
                 data.privacy_policy_url &&
-                  `[${$('commands.info.app.fields.privacy_policy')}](${data.privacy_policy_url})`,
+                  `[${$('modules.info.app.fields.privacy_policy')}](${data.privacy_policy_url})`,
               ].join('\n'),
             },
           ]);
 
         if (data.tags?.length) {
-          embed.addFields([{ name: $('commands.info.app.fields.tags'), value: data.tags.join(', ') }]);
+          embed.addFields([{ name: $('modules.info.app.fields.tags'), value: data.tags.join(', ') }]);
         }
 
         if (data.description) {

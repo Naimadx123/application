@@ -60,7 +60,7 @@ export default class Cobalt extends Command {
     const ephemeral = interaction.options.getBoolean('ephemeral') ?? false;
 
     await interaction.reply({
-      embeds: [new Embed().setDefaults(interaction.user).setDescription($('commands.cobalt.status.downloading'))],
+      embeds: [new Embed().setDefaults(interaction.user).setDescription($('modules.cobalt.status.downloading'))],
       ephemeral,
     });
 
@@ -115,7 +115,7 @@ export default class Cobalt extends Command {
               .setDefaults(interaction.user)
               .setDescription(
                 errorTranslation === `commands.cobalt.apiErrors.${code}`
-                  ? $('commands.cobalt.apiErrors.generic')
+                  ? $('modules.cobalt.apiErrors.generic')
                   : errorTranslation
               ),
           ],
@@ -128,7 +128,7 @@ export default class Cobalt extends Command {
 
     if (files?.length === 0) {
       await interaction.editReply({
-        embeds: [new Embed().setDefaults(interaction.user).setDescription($('commands.cobalt.status.noFiles'))],
+        embeds: [new Embed().setDefaults(interaction.user).setDescription($('modules.cobalt.status.noFiles'))],
       });
       return;
     }
@@ -138,7 +138,7 @@ export default class Cobalt extends Command {
       await interaction.editReply({
         embeds: [
           new Embed().setDefaults(interaction.user).setDescription(
-            $('commands.cobalt.status.fileTooLarge', {
+            $('modules.cobalt.status.fileTooLarge', {
               size: `${(combinedSize / 1024 / 1024).toFixed(2)}mb`,
             })
           ),
@@ -152,18 +152,18 @@ export default class Cobalt extends Command {
         new Embed()
           .setDefaults(interaction.user)
           .setDescription(
-            $('commands.cobalt.status.downloadComplete', {
+            $('modules.cobalt.status.downloadComplete', {
               time: `${(endTime - startTime) / 1000}s`,
             })
           )
           .addFields([
             {
-              name: $('commands.cobalt.fields.files'),
+              name: $('modules.cobalt.fields.files'),
               value: files.length.toString(),
               inline: true,
             },
             {
-              name: $('commands.cobalt.fields.size'),
+              name: $('modules.cobalt.fields.size'),
               value: `${(combinedSize / 1024 / 1024).toFixed(2)}mb`,
               inline: true,
             },

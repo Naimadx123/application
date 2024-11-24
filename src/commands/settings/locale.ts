@@ -62,7 +62,7 @@ export default class Locale extends Command {
   public async run(interaction: ChatInputCommandInteraction, $: I18nFunction): Promise<unknown> {
     if (this.cooldowns.has(interaction.guildId!)) {
       if (Date.now() - this.cooldowns.get(interaction.guildId!)! < 1 * 60 * 1000) {
-        const embed = new Embed().setDefaults(interaction.user).setDescription($('commands.locale.cooldown'));
+        const embed = new Embed().setDefaults(interaction.user).setDescription($('modules.locale.cooldown'));
 
         return await interaction.reply({
           embeds: [embed],
@@ -90,7 +90,7 @@ export default class Locale extends Command {
       .finally(() => this.cooldowns.set(interaction.guildId!, Date.now()));
 
     if (!result) {
-      const embed = new Embed().setDefaults(interaction.user).setDescription($('commands.locale.error'));
+      const embed = new Embed().setDefaults(interaction.user).setDescription($('modules.locale.error'));
 
       return await interaction.reply({
         embeds: [embed],
