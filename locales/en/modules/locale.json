@@ -1,5 +1,5 @@
 {
-  "success": ":flag_gb: Changed locale to English",
+  "success": "🇬🇧 Changed locale to English",
   "error": "Failed to change locale",
   "cooldown": "Locale on this server has been recently changed, please wait before changing again"
 }

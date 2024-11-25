@@ -4,18 +4,19 @@
     "fields": {
       "general": "Ogólne",
       "nickname": "Pseudonim",
-      "username": "Nazwa użytkownika",
+      "name": "Nazwa",
       "createdAt": "Utworzono",
       "joinedAt": "Dołączył",
       "roles": "Role",
       "member": "Członek"
     },
     "buttons": {
-      "avatar": "URL avatara",
+      "avatar": "URL awatara",
       "user": "URL użytkownika"
     }
   },
   "server": {
+    "noGuild": "Nie jesteś na żadnym serwerze",
     "title": "Informacje o serwerze",
     "fields": {
       "general": "Ogólne",
@@ -27,9 +28,9 @@
       "verificationLevel": "Poziom weryfikacji"
     },
     "buttons": {
-      "icon": "URL ikony"
-    },
-    "noGuild": "Nie jesteś na żadnym serwerze"
+      "icon": "URL ikony",
+      "banner": "URL banera"
+    }
   },
   "app": {
     "noApp": "To ID nie pasuje do żadnej aplikacji",
@@ -48,6 +49,7 @@
   },
   "role": {
     "noRole": "To ID nie pasuje do żadnej roli",
+    "title": "Informacje o roli",
     "fields": {
       "general": "Ogólne",
       "name": "Nazwa",
