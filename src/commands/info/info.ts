@@ -135,8 +135,10 @@ export default class Info extends Command {
             },
             {
               name: $('modules.info.user.fields.general'),
-              value: `${$('modules.info.user.fields.username')}: ${user.username}\n${$('modules.info.user.fields.createdAt')}: ${'<t:' + Math.floor(user.createdTimestamp / 1000) + ':R>' || 'N/a'}
-                  `,
+              value: [
+                `${$('modules.info.user.fields.name')}: ${userMention(user.id)}`,
+                `${$('modules.info.user.fields.createdAt')}: ${'<t:' + Math.floor(user.createdTimestamp / 1000) + ':R>' || 'N/a'}`,
+              ].join('\n'),
             },
           ]);
 
@@ -149,7 +151,7 @@ export default class Info extends Command {
 
           const rolesString =
             roles.length > 0
-              ? roles.slice(0, 4).join(', ') + (roles.length > 4 ? ` (+${roles.length - 4})` : '')
+              ? roles.slice(0, 3).join(', ') + (roles.length > 3 ? ` (+${roles.length - 3})` : '')
               : 'N/a';
 
           embed.addFields([
@@ -246,11 +248,20 @@ export default class Info extends Command {
       }
 
       case 'role': {
-        const role = interaction.options.getRole('role', true);
+        const role = await interaction.guild?.roles
+          .fetch(interaction.options.getRole('role', true).id)
+          .catch(() => null);
+
+        if (!role) {
+          await interaction.reply({
+            embeds: [new Embed().setDefaults(interaction.user).setDescription($('modules.info.role.noRole'))],
+          });
+          return;
+        }
 
         const embed = new Embed()
           .setDefaults(interaction.user)
-          .setTitle(role.name)
+          .setTitle($('modules.info.role.title'))
           .setFields([
             {
               name: 'ID',
@@ -259,7 +270,7 @@ export default class Info extends Command {
             {
               name: $('modules.info.role.fields.general'),
               value: [
-                `${$('modules.info.role.fields.name')}: ${role.name}`,
+                `${$('modules.info.role.fields.name')}: ${roleMention(role.id)}`,
                 `${$('modules.info.role.fields.position')}: ${role.position}`,
                 `${$('modules.info.role.fields.members')}: ${role.members.size}`,
                 `${$('modules.info.role.fields.created')}: <t:${Math.floor(role.createdTimestamp / 1000)}:R>`,

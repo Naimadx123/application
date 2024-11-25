@@ -4,7 +4,7 @@
     "fields": {
       "general": "Ogólne",
       "nickname": "Pseudonim",
-      "username": "Nazwa użytkownika",
+      "name": "Nazwa",
       "createdAt": "Utworzono",
       "joinedAt": "Dołączył",
       "roles": "Role",
@@ -49,6 +49,7 @@
   },
   "role": {
     "noRole": "To ID nie pasuje do żadnej roli",
+    "title": "Informacje o roli",
     "fields": {
       "general": "Ogólne",
       "name": "Nazwa",
