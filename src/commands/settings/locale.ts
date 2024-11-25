@@ -61,7 +61,7 @@ export default class Locale extends Command {
 
   public async run(interaction: ChatInputCommandInteraction, $: I18nFunction): Promise<unknown> {
     if (this.cooldowns.has(interaction.guildId!)) {
-      if (Date.now() - this.cooldowns.get(interaction.guildId!)! < 1 * 60 * 1000) {
+      if (Date.now() - this.cooldowns.get(interaction.guildId!)! < 60 * 1000) {
         const embed = new Embed().setDefaults(interaction.user).setDescription($('modules.locale.cooldown'));
 
         return await interaction.reply({
