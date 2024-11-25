@@ -4,8 +4,10 @@ import {
   ButtonBuilder,
   ButtonStyle,
   ChatInputCommandInteraction,
-  InteractionContextType, roleMention,
-  SlashCommandBuilder, userMention,
+  InteractionContextType,
+  roleMention,
+  SlashCommandBuilder,
+  userMention,
 } from 'discord.js';
 
 import { Command } from '~/structures/command';
