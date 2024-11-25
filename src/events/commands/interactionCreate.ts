@@ -1,4 +1,4 @@
-import { codeBlock, hyperlink, type Interaction } from 'discord.js';
+import { codeBlock, type Interaction } from 'discord.js';
 import { client } from '~/index';
 import { type Locale } from '~/lib/i18n';
 import { logger } from '~/lib/logger';
@@ -42,24 +42,34 @@ export default class InteractionCreate extends Event {
       if (guild) locale = guild.locale.toLowerCase();
     }
 
-    try {
-      await command.run(interaction, (key: string, vars?: Record<string, string>) =>
-        client.i18n.translate(locale as Locale, key, vars)
-      );
-    } catch (error) {
-      logger.error(`Error while running command ${command.data.name}`, error);
-      await interaction.reply({
-        embeds: [
-          new Embed()
-            .setDefaults(interaction.user)
-            .setDescription(
-              `Error while running command \`commands.${command.data.name}\`\n\n` +
-                `Please report this error on ${hyperlink('github', 'https://github.com/meteor-discord/application/issues/new')}\n\n` +
-                `${codeBlock('yml', error instanceof Error ? error.message : String(error))}`
-            )
-            .setTimestamp(),
-        ],
-      });
-    }
+    const translate = (key: string, vars?: Record<string, string>) =>
+      client.i18n.translate(locale as Locale, key, vars);
+    await command.run(interaction, translate).catch(async (error: unknown) => {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      const timestamp = Math.floor(Date.now() / 1000);
+
+      const errorEmbed = new Embed()
+        .setDefaults(interaction.user)
+        .setDescription(
+          translate('common.executionError', {
+            command: command.data.name,
+            issueUrl: 'https://github.com/meteor-discord/application/issues/new',
+          })
+        )
+        .addFields([
+          {
+            name: translate('common.timestamp'),
+            value: `<t:${timestamp}:R> (${timestamp})`,
+          },
+          {
+            name: translate('common.error'),
+            value: codeBlock('bf', errorMessage),
+          },
+        ]);
+
+      await interaction.reply({ embeds: [errorEmbed] }).catch(() => null);
+
+      throw error;
+    });
   }
 }
