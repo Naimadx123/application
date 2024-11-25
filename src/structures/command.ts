@@ -14,7 +14,7 @@ export abstract class Command {
     this.data = data;
   }
 
-  public dbRequired(): Command {
+  public requiresDb(): Command {
     this.isDbRequired = true;
     return this;
   }

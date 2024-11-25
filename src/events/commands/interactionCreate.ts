@@ -48,7 +48,7 @@ export default class InteractionCreate extends Event {
     if (command.isDbRequired && !client.dbConnected) {
       const errorEmbed = new Embed()
         .setDefaults(interaction.user)
-        .setDescription(translate('modules.locale.databaseConnectionError'));
+        .setDescription(translate('common.databaseConnectionError'));
 
       await interaction.reply({ embeds: [errorEmbed] }).catch(() => null);
       return;
