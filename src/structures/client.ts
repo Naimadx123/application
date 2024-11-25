@@ -26,7 +26,7 @@ export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
   public readonly i18n = new I18n();
   public readonly cobalt = new Cobalt();
   public readonly commands = new Collection<string, Command>();
-  public dbConnected: boolean = false;
+  public dbConnected = false;
 
   public constructor(options: ClientOptions) {
     super(options);
@@ -61,24 +61,30 @@ export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
     });
   }
 
-  private async checkConnection(): Promise<void> {
+  private async checkPrismaConnection(): Promise<void> {
     try {
       await this.prisma.$connect();
       this.dbConnected = true;
-      await this.prisma.$disconnect();
       logger.info('Connected to Database');
     } catch (e) {
       if (e instanceof Prisma.PrismaClientInitializationError) {
         logger.error(`Error connecting to Database (${e.errorCode}): ${e.message}`);
-        this.dbConnected = false;
+      } else {
+        logger.error('Unexpected database connection error:', e);
       }
+    } finally {
+      await this.prisma.$disconnect();
     }
   }
 
   public async init(): Promise<void> {
     try {
-      await this.checkConnection();
-      await Promise.all([this.registerEvents(), this.registerCommands(), this.i18n.init()]);
+      await Promise.all([
+        this.checkPrismaConnection(),
+        this.registerEvents(),
+        this.registerCommands(),
+        this.i18n.init(),
+      ]);
       await this.login();
     } catch (error) {
       console.log(error);
