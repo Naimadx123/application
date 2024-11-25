@@ -1,5 +1,7 @@
 ![Banner](assets/github-banner.png)
 
+[![Crowdin](https://badges.crowdin.net/meteor-application/localized.svg)](https://crowdin.com/project/meteor-application)
+
 ## About the project
 
 Meteor is an open-source Discord application that is flexible and easy to use. It includes features that improve server security and enhance the user experience.
