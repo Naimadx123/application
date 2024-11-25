@@ -51,6 +51,7 @@ export default class Locale extends Command {
             )
         )
     );
+    this.dbRequired();
   }
 
   /**
