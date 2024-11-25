@@ -55,7 +55,7 @@ export default class InteractionCreate extends Event {
             .setDescription(
               `Error while running command \`commands.${command.data.name}\`\n\n`+
               `Please report this error on ${hyperlink("github", "https://github.com/meteor-discord/application/issues/new")}\n\n`+
-              `${codeBlock("yml", error.message)}`
+              `${codeBlock("yml", error instanceof Error ? error.message : String(error))}`
             )
             .setTimestamp(),
         ],
