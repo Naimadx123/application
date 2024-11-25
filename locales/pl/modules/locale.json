@@ -1,6 +1,5 @@
 {
   "success": ":flag_pl: Zmieniono język na polski",
   "error": "Nie udało się zmienić języka",
-  "cooldown": "Język na tym serwerze został niedawno zmieniony, poczekaj przed kolejną zmianą",
-  "databaseConnectionError": "Baza danych nie jest skonfigurowana. Ta komenda jest wyłączona!"
+  "cooldown": "Język na tym serwerze został niedawno zmieniony, poczekaj przed kolejną zmianą"
 }
