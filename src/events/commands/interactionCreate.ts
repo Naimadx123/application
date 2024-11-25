@@ -45,17 +45,16 @@ export default class InteractionCreate extends Event {
     const translate = (key: string, vars?: Record<string, string>) =>
       client.i18n.translate(locale as Locale, key, vars);
 
-    if(command.isDbRequired && !client.dbConnected){
+    if (command.isDbRequired && !client.dbConnected) {
       const errorEmbed = new Embed()
         .setDefaults(interaction.user)
-        .setDescription(translate("modules.locale.databaseConnectionError"));
+        .setDescription(translate('modules.locale.databaseConnectionError'));
 
       await interaction.reply({ embeds: [errorEmbed] }).catch(() => null);
       return;
     }
 
     await command.run(interaction, translate).catch(async (error: unknown) => {
-
       const errorMessage = error instanceof Error ? error.message : String(error);
       const timestamp = Math.floor(Date.now() / 1000);
 

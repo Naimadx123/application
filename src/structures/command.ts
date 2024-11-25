@@ -6,8 +6,9 @@ import type {
 } from 'discord.js';
 
 export abstract class Command {
-  public isDbRequired: boolean = false;
   public readonly data: SlashCommandBuilder | SlashCommandOptionsOnlyBuilder | SlashCommandSubcommandsOnlyBuilder;
+
+  public isDbRequired = false;
 
   public constructor(data: SlashCommandBuilder | SlashCommandOptionsOnlyBuilder | SlashCommandSubcommandsOnlyBuilder) {
     this.data = data;
