@@ -24,23 +24,23 @@ export default class InteractionCreate extends Event {
 
     let locale = 'en';
 
-    // if (interaction.guild) {
-    //   const guild = await client.prisma.guild
-    //     .findUnique({
-    //       where: {
-    //         id: interaction.guildId!,
-    //       },
-    //       select: {
-    //         locale: true,
-    //       },
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //       return undefined;
-    //     });
-    //
-    //   if (guild) locale = guild.locale.toLowerCase();
-    // }
+    if (interaction.guild) {
+      const guild = await client.prisma.guild
+        .findUnique({
+          where: {
+            id: interaction.guildId!,
+          },
+          select: {
+            locale: true,
+          },
+        })
+        .catch(err => {
+          console.log(err);
+          return undefined;
+        });
+
+      if (guild) locale = guild.locale.toLowerCase();
+    }
 
     try{
       await command.run(interaction, (key: string, vars?: Record<string, string>) =>
