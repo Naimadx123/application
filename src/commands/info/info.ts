@@ -4,8 +4,8 @@ import {
   ButtonBuilder,
   ButtonStyle,
   ChatInputCommandInteraction,
-  InteractionContextType,
-  SlashCommandBuilder,
+  InteractionContextType, roleMention,
+  SlashCommandBuilder, userMention,
 } from 'discord.js';
 
 import { Command } from '~/structures/command';
@@ -143,7 +143,7 @@ export default class Info extends Command {
           const roles = member.roles.cache
             .filter(role => role.id !== member.guild.id)
             .sort((a, b) => b.position - a.position)
-            .map(role => `<@&${role.id}>`);
+            .map(role => `${roleMention(role.id)}`);
 
           const rolesString =
             roles.length > 0
@@ -205,7 +205,7 @@ export default class Info extends Command {
               name: $('modules.info.server.fields.general'),
               value: [
                 `${$('modules.info.server.fields.createdAt')}: <t:${Math.floor(interaction.guild.createdTimestamp! / 1000)}:R>`,
-                `${$('modules.info.server.fields.owner')}: <@${interaction.guild.ownerId}>`,
+                `${$('modules.info.server.fields.owner')}: ${userMention(interaction.guild.ownerId)}`,
               ].join('\n'),
             },
             {

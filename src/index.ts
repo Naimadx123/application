@@ -7,6 +7,7 @@ export const client = new Client({
   partials: Object.values(Partials).map(bit => bit) as Partials[],
   allowedMentions: {
     repliedUser: false,
+    parse: ["users","roles"],
   },
   presence: {
     activities: [
