@@ -43,12 +43,14 @@ export abstract class DatabaseA {
       const clauses = [
         `"${String(column.name)}" ${sqlType}`,
         options.primary ? 'PRIMARY KEY' : '',
-        options.autoincrement ? 'AUTOINCREMENT' : '',
+        options.autoincrement && this.db instanceof Pool ? 'GENERATED ALWAYS AS IDENTITY' : '',
+        options.autoincrement && !(this.db instanceof Pool) ? 'AUTOINCREMENT' : '',
       ].filter(Boolean);
       return clauses.join(' ');
     });
 
     const createTableSQL = `CREATE TABLE IF NOT EXISTS ${tableName} (${columnDefinitions.join(', ')});`;
+    console.log(createTableSQL);
     if (this.db instanceof Pool) {
       const client = await this.db.connect();
       try {
@@ -56,7 +58,7 @@ export abstract class DatabaseA {
       } finally {
         client.release();
       }
-    } else {
+    } else if (this.db) {
       await this.db.run(createTableSQL);
     }
   }

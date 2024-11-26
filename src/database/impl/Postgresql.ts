@@ -5,15 +5,15 @@ import { DatabaseA } from '~/database/DatabaseA.ts';
 type Row = Record<string, string | number | boolean | null>;
 
 export default class Postgresql extends DatabaseA {
-  private pool: Pool;
+  declare db: Pool;
 
   constructor(config: object, logger: Logger) {
     super(logger);
-    this.pool = new Pool(config);
+    this.db = new Pool(config);
   }
 
   async insert(table: string, data: Partial<Row>): Promise<void> {
-    const client = await this.pool.connect();
+    const client = await this.db.connect();
     try {
       const keys = Object.keys(data);
       const values = Object.values(data);
@@ -26,7 +26,7 @@ export default class Postgresql extends DatabaseA {
   }
 
   async get(table: string, where?: Partial<Row>): Promise<Row[]> {
-    const client = await this.pool.connect();
+    const client = await this.db.connect();
     try {
       const conditions = where
         ? Object.keys(where)
@@ -43,7 +43,7 @@ export default class Postgresql extends DatabaseA {
   }
 
   async update(table: string, data: Partial<Row>, where: Partial<Row>): Promise<void> {
-    const client = await this.pool.connect();
+    const client = await this.db.connect();
     try {
       const setClause = Object.keys(data)
         .map((key, i) => `${key} = $${i + 1}`)
@@ -60,7 +60,7 @@ export default class Postgresql extends DatabaseA {
   }
 
   async delete(table: string, where: Partial<Row>): Promise<void> {
-    const client = await this.pool.connect();
+    const client = await this.db.connect();
     try {
       const whereClause = Object.keys(where)
         .map((key, i) => `${key} = $${i + 1}`)
