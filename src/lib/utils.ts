@@ -15,7 +15,7 @@ import path from 'path';
  * const files = await getFiles('/path/to/dir', '.ts');
  * console.log(files); // ['file1.ts', 'subdir/file2.ts']
  */
-export async function getFiles(dir: string, extension: string, recursive: boolean = false): Promise<string[]> {
+export async function getFiles(dir: string, extension: string, recursive = false): Promise<string[]> {
   const items = await fs.readdir(dir, { withFileTypes: true });
 
   const files = await Promise.all(
