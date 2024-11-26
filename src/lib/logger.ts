@@ -17,11 +17,6 @@ export const logger = pino({
       }
     : undefined,
   timestamp: () => `,"time":"${new Date(Date.now()).toISOString()}"`,
-  formatters: {
-    level: label => {
-      return { level: label.toUpperCase() };
-    },
-  },
   redact: {
     paths: ['*.password', '*.token', '*.key'],
     remove: true,

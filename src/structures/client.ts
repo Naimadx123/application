@@ -55,10 +55,6 @@ export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
     await this.registerItems<Command>(path.join(__dirname, '..', 'commands'), '.ts', command => {
       this.commands.set(command.data.name, command);
     });
-    this.on('ready', () => {
-      this.application?.commands.set(this.commands.map(command => command.data));
-      logger.info('Commands have been registered!');
-    });
   }
 
   private async checkPrismaConnection(): Promise<void> {
