@@ -30,3 +30,13 @@ export async function getFiles(dir: string, extension: string, recursive = false
 
   return files.flat();
 }
+
+export function isClass(func: AnyFunction): boolean {
+  if (typeof func !== 'function') return false;
+
+  const funcStr = Function.prototype.toString.call(func);
+
+  return /^class\s/.test(funcStr);
+}
+
+type AnyFunction = (...args: never[]) => never;

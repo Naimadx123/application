@@ -4,7 +4,7 @@ import path from 'path';
 
 import { PrismaClient, Prisma } from '@prisma/client';
 import { logger } from '~/lib/logger';
-import { getFiles } from '~/lib/utils';
+import {getFiles, isClass} from '~/lib/utils';
 import type { Command } from '~/structures/Command';
 import type { Event } from './Event';
 import { Cobalt } from '~/lib/Cobalt';
@@ -44,14 +44,17 @@ export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
     await Promise.all(
       files.map(async file => {
         const module = await import(file);
-        const item: T = new (module.default() || module)();
-        handler(item, file);
+        const ItemClass = module.default || module;
+        if(isClass(ItemClass)) {
+          const item: T = new ItemClass();
+          handler(item, file);
+        }
       })
     );
   }
 
   private async registerEvents(): Promise<void> {
-    await this.registerItems<Event>(path.join(__dirname, '..', 'events'), '.ts', false, event => {
+    await this.registerItems<Event>(path.join(__dirname, '..', 'events'), '.ts', true, event => {
       const handler = (...args: Parameters<Event['run']>) => event.run(...args);
       event.once ? this.once(event.name, handler) : this.on(event.name, handler);
     });
