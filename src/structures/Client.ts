@@ -4,7 +4,7 @@ import path from 'path';
 
 import { PrismaClient, Prisma } from '@prisma/client';
 import { logger } from '~/lib/logger';
-import {getFiles, isClass} from '~/lib/utils';
+import { getFiles, isClass } from '~/lib/utils';
 import type { Command } from '~/structures/Command';
 import type { Event } from './Event';
 import { Cobalt } from '~/lib/Cobalt';
@@ -45,7 +45,7 @@ export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
       files.map(async file => {
         const module = await import(file);
         const ItemClass = module.default || module;
-        if(isClass(ItemClass)) {
+        if (isClass(ItemClass)) {
           const item: T = new ItemClass();
           handler(item, file);
         }
