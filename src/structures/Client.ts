@@ -27,7 +27,7 @@ export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
   public readonly i18n = new I18n();
   public readonly cobalt = new Cobalt();
   public readonly commands = new Collection<string, Command>();
-  public readonly categories = new Collection<string, Array<string>>();
+  public readonly categories = new Collection<string, string[]>();
   public dbConnected = false;
 
   public constructor(options: ClientOptions) {
@@ -44,7 +44,7 @@ export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
     await Promise.all(
       files.map(async file => {
         const module = await import(file);
-        const item: T = new module.default() || module;
+        const item: T = new (module.default() || module)();
         handler(item, file);
       })
     );

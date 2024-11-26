@@ -4,7 +4,7 @@ import { type Locale } from '~/lib/I18n';
 import { logger } from '~/lib/logger';
 import { Embed } from '~/structures/Embed';
 
-export default async function commandHandler(interaction: ChatInputCommandInteraction, locale: String): Promise<void> {
+export default async function commandHandler(interaction: ChatInputCommandInteraction, locale: string): Promise<void> {
   const command = client.commands.get(interaction.commandName);
   if (!command) {
     logger.warn(`Command ${interaction.commandName} not found!`);
