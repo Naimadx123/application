@@ -13,7 +13,7 @@ export default async function commandHandler(interaction: ChatInputCommandIntera
 
   const translate = (key: string, vars?: Record<string, string>) => client.i18n.translate(locale as Locale, key, vars);
 
-  if (command.isDbRequired && !client.dbConnected) {
+  if ((command.isDbRequired && !client.dbConnected) || !client.database) {
     const errorEmbed = new Embed()
       .setDefaults(interaction.user)
       .setDescription(translate('common.databaseConnectionError'));

@@ -1,5 +1,5 @@
 import { ActivityType, GatewayIntentBits, Partials } from 'discord.js';
-
+import 'reflect-metadata';
 import { Client } from '~/structures/Client';
 
 export const client = new Client({

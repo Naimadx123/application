@@ -1,8 +1,6 @@
 import { Collection, Client as DiscordClient, type ClientOptions } from 'discord.js';
-
 import path from 'path';
-
-import { PrismaClient, Prisma } from '@prisma/client';
+import 'reflect-metadata';
 import { logger } from '~/lib/logger';
 import { getFiles, isClass } from '~/lib/utils';
 import type { Command } from '~/structures/Command';
@@ -10,28 +8,37 @@ import type { Event } from './Event';
 import { Cobalt } from '~/lib/Cobalt';
 import { I18n } from '~/lib/I18n';
 import { client } from '~/index';
+import type { DatabaseA } from '~/database/DatabaseA';
+import { DatabaseTypes } from '~/database/DatabaseTypes.ts';
+import DatabaseManager from '~/database/DatabaseManager.ts';
 
 export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
-  public readonly prisma = new PrismaClient({
-    log: [
-      {
-        emit: 'event',
-        level: 'error',
-      },
-      {
-        emit: 'event',
-        level: 'warn',
-      },
-    ],
-  });
   public readonly i18n = new I18n();
   public readonly cobalt = new Cobalt();
   public readonly commands = new Collection<string, Command>();
   public readonly categories = new Collection<string, string[]>();
   public dbConnected = false;
+  public database!: DatabaseA;
 
   public constructor(options: ClientOptions) {
     super(options);
+    (async () => {
+      await this.initDb();
+    })();
+  }
+
+  private async initDb(): Promise<void> {
+    try {
+      const type = process.env.DATABASE_URL?.startsWith('postgresql') ? DatabaseTypes.POSTGRES : DatabaseTypes.SQLITE;
+      const dbPath = process.env.DATABASE_URL || './database.db';
+      const dbManager = new DatabaseManager(type, dbPath, logger);
+      this.database = await dbManager.getInstance();
+      this.dbConnected = true;
+      logger.info('Database initialized successfully.');
+    } catch (error) {
+      logger.error('Failed to initialize the database:', error);
+      process.exit(1);
+    }
   }
 
   private async registerItems<T>(
@@ -75,30 +82,9 @@ export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
     logger.info(`Commands (${client.commands.size}) have been registered!`);
   }
 
-  private async checkPrismaConnection(): Promise<void> {
-    try {
-      await this.prisma.$connect();
-      this.dbConnected = true;
-      logger.info('Connected to Database');
-    } catch (e) {
-      if (e instanceof Prisma.PrismaClientInitializationError) {
-        logger.error(`Error connecting to Database (${e.errorCode}): ${e.message}`);
-      } else {
-        logger.error('Unexpected database connection error:', e);
-      }
-    } finally {
-      await this.prisma.$disconnect();
-    }
-  }
-
   public async init(): Promise<void> {
     try {
-      await Promise.all([
-        this.checkPrismaConnection(),
-        this.registerEvents(),
-        this.registerCommands(),
-        this.i18n.init(),
-      ]);
+      await Promise.all([this.registerEvents(), this.registerCommands(), this.i18n.init(), this.initDb()]);
       await this.login();
     } catch (error) {
       console.log(error);

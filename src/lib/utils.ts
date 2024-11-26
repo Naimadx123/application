@@ -1,6 +1,9 @@
 import fs from 'fs/promises';
 import path from 'path';
 
+type AnyFunction = (...args: never[]) => never;
+type Row = Record<string, string | number | boolean | null>;
+
 /**
  * Recursively retrieves all file paths from a given directory and its subdirectories
  * that match a specific file extension.
@@ -39,4 +42,8 @@ export function isClass(func: AnyFunction): boolean {
   return /^class\s/.test(funcStr);
 }
 
-type AnyFunction = (...args: never[]) => never;
+export function filterNullValues<T extends Partial<Row>>(obj: T): Partial<Row> {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([_, value]) => value !== null && value !== undefined)
+  ) as Partial<Row>;
+}

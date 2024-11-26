@@ -15,21 +15,12 @@ export default class InteractionCreate extends Event {
     let locale = 'en';
 
     if (client.dbConnected && interaction.guild) {
-      const guild = await client.prisma.guild
-        .findUnique({
-          where: {
-            id: interaction.guildId!,
-          },
-          select: {
-            locale: true,
-          },
-        })
-        .catch(err => {
-          console.log(err);
-          return undefined;
-        });
+      const result = await client.database.get('Locales', { guildID: interaction.guildId });
 
-      if (guild) locale = guild.locale.toLowerCase();
+      if (result && result?.length > 0) {
+        const guild = result[0];
+        if (guild && typeof guild.locale === 'string') locale = guild.locale?.toLowerCase();
+      }
     }
 
     /**

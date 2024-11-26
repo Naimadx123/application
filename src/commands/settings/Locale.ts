@@ -7,7 +7,6 @@ import {
   SlashCommandBuilder,
 } from 'discord.js';
 
-import type { Locale as LocalePrismaType } from '@prisma/client';
 import { client } from '~/index';
 import { type Locale as LocaleType, type I18nFunction } from '~/lib/I18n';
 import { Command } from '~/structures/Command.ts';
@@ -72,22 +71,30 @@ export default class Locale extends Command {
 
       this.cooldowns.delete(interaction.guildId!);
     }
+    const locale = interaction.options.getString('locale', true);
+    const result = await client.database.get('Locales', { guildID: interaction.guildId });
 
-    const result = await client.prisma.guild
-      .upsert({
-        where: {
-          id: interaction.guildId!,
+    if (result.length > 0 && locale === 'EN') {
+      await client.database.delete('Locales', {
+        guildID: interaction.guildId,
+      });
+    } else if (result.length < 1) {
+      await client.database.insert('Locales', {
+        guildID: interaction.guildId,
+        locale,
+      });
+    } else if (result.length > 0) {
+      await client.database.update(
+        'Locales',
+        {
+          locale,
         },
-        update: {
-          locale: interaction.options.getString('locale', true) as LocalePrismaType,
-        },
-        create: {
-          id: interaction.guildId!,
-          locale: interaction.options.getString('locale', true) as LocalePrismaType,
-        },
-      })
-      .catch(() => null)
-      .finally(() => this.cooldowns.set(interaction.guildId!, Date.now()));
+        {
+          guildID: interaction.guildId,
+        }
+      );
+    }
+    // this.cooldowns.set(interaction.guildId!, Date.now());
 
     if (!result) {
       const embed = new Embed().setDefaults(interaction.user).setDescription($('modules.locale.error'));
@@ -103,7 +110,7 @@ export default class Locale extends Command {
       .setDescription(
         client.i18n.translate(
           interaction.options.getString('locale', true).toLowerCase() as LocaleType,
-          'commands.locale.success'
+          'modules.locale.success'
         )
       );
 
