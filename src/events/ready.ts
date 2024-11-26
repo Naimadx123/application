@@ -12,6 +12,6 @@ export default class Ready extends Event {
 
   public async run(): Promise<void> {
     logger.info('Client has started up successfully!');
-    logger.info(`Application is in ${client.guilds.cache.size} server(s)`);
+    logger.info(`Application is in ${client.guilds.cache.size} server${client.guilds.cache.size === 1 ? '' : 's'}`);
   }
 }
