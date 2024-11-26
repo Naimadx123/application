@@ -19,7 +19,6 @@ export default class DatabaseManager {
       .then(async db => {
         this.dbInstance = db;
         await this.createTables();
-        this.logger.info('Database initialized successfully.');
       })
       .catch(err => {
         this.logger.error('Failed to initialize the database:', err);
@@ -68,7 +67,6 @@ export default class DatabaseManager {
     const files = await getFiles(path.join(__dirname, '.', 'tables'), '.ts');
 
     files.map(async file => {
-      this.logger.info('Creating table ', file);
       const module = await import(file);
       const ItemClass = module.default || module;
       await this.dbInstance?.createTableFromClass(ItemClass);

@@ -50,7 +50,6 @@ export abstract class DatabaseA {
     });
 
     const createTableSQL = `CREATE TABLE IF NOT EXISTS ${tableName} (${columnDefinitions.join(', ')});`;
-    console.log(createTableSQL);
     if (this.db instanceof Pool) {
       const client = await this.db.connect();
       try {
