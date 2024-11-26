@@ -5,10 +5,10 @@ import {
   SlashCommandBuilder,
 } from 'discord.js';
 
-import type { CobaltPicker } from '~/lib/cobalt';
-import { Command } from '~/structures/command';
-import { Embed } from '~/structures/embed';
-import type { I18nFunction } from '~/lib/i18n';
+import type { CobaltPicker } from '~/lib/Cobalt.ts';
+import { Command } from '~/structures/Command.ts';
+import { Embed } from '~/structures/Embed.ts';
+import type { I18nFunction } from '~/lib/I18n.ts';
 import { client } from '~/index';
 import { logger } from '~/lib/logger';
 

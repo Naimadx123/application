@@ -9,10 +9,10 @@ import {
 
 import type { Locale as LocalePrismaType } from '@prisma/client';
 import { client } from '~/index';
-import type { I18nFunction } from '~/lib/i18n';
-import { type Locale as LocaleType } from '~/lib/i18n';
-import { Command } from '~/structures/command';
-import { Embed } from '~/structures/embed';
+import type { I18nFunction } from '~/lib/I18n.ts';
+import { type Locale as LocaleType } from '~/lib/I18n.ts';
+import { Command } from '~/structures/Command.ts';
+import { Embed } from '~/structures/Embed.ts';
 
 export default class Locale extends Command {
   public constructor() {

@@ -1,6 +1,6 @@
 import { ActivityType, GatewayIntentBits, Partials } from 'discord.js';
 
-import { Client } from '~/structures/client';
+import { Client } from '~/structures/Client.ts';
 
 export const client = new Client({
   intents: Object.values(GatewayIntentBits).map(bit => bit) as GatewayIntentBits[],

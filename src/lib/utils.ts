@@ -7,6 +7,7 @@ import path from 'path';
  *
  * @param {string} dir - The directory path to search in.
  * @param {string} extension - The file extension to filter files by (e.g., '.ts', '.js').
+ * @param {boolean} recursive - Should load files recursively
  * @returns {Promise<string[]>} A promise that resolves to an array of file paths that match the extension.
  *
  * @example
@@ -14,13 +15,13 @@ import path from 'path';
  * const files = await getFiles('/path/to/dir', '.ts');
  * console.log(files); // ['file1.ts', 'subdir/file2.ts']
  */
-export async function getFiles(dir: string, extension: string): Promise<string[]> {
+export async function getFiles(dir: string, extension: string, recursive: boolean = false): Promise<string[]> {
   const items = await fs.readdir(dir, { withFileTypes: true });
 
   const files = await Promise.all(
     items.map(async item =>
-      item.isDirectory()
-        ? getFiles(path.join(dir, item.name), extension)
+      item.isDirectory() && recursive
+        ? getFiles(path.join(dir, item.name), extension, recursive)
         : item.isFile() && item.name.endsWith(extension)
           ? path.join(dir, item.name)
           : []
