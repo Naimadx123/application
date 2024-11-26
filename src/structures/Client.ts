@@ -9,8 +9,8 @@ import { Cobalt } from '~/lib/Cobalt';
 import { I18n } from '~/lib/I18n';
 import { client } from '~/index';
 import type { DatabaseA } from '~/database/DatabaseA';
-import { DatabaseTypes } from '~/database/DatabaseTypes.ts';
-import DatabaseManager from '~/database/DatabaseManager.ts';
+import { DatabaseTypes } from '~/database/DatabaseTypes';
+import DatabaseManager from '~/database/DatabaseManager';
 
 export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
   public readonly i18n = new I18n();
@@ -84,7 +84,7 @@ export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
 
   public async init(): Promise<void> {
     try {
-      await Promise.all([this.registerEvents(), this.registerCommands(), this.i18n.init(), this.initDb()]);
+      await Promise.all([this.registerEvents(), this.registerCommands(), this.i18n.init()]);
       await this.login();
     } catch (error) {
       console.log(error);

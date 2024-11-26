@@ -13,43 +13,63 @@ export default class Postgresql extends DatabaseA {
   }
 
   async insert(table: string, data: Partial<Row>): Promise<void> {
-    const keys = Object.keys(data);
-    const values = Object.values(data);
-    const placeholders = keys.map((_, i) => `$${i + 1}`).join(', ');
-    const query = `INSERT INTO ${table} (${keys.join(', ')}) VALUES (${placeholders});`;
-    await this.pool.query(query, values);
+    const client = await this.pool.connect();
+    try {
+      const keys = Object.keys(data);
+      const values = Object.values(data);
+      const placeholders = keys.map((_, i) => `$${i + 1}`).join(', ');
+      const query = `INSERT INTO ${table} (${keys.join(', ')}) VALUES (${placeholders});`;
+      await client.query(query, values);
+    } finally {
+      client.release();
+    }
   }
 
   async get(table: string, where?: Partial<Row>): Promise<Row[]> {
-    const conditions = where
-      ? Object.keys(where)
-          .map((key, i) => `${key} = $${i + 1}`)
-          .join(' AND ')
-      : '';
-    const query = `SELECT * FROM ${table}${conditions ? ` WHERE ${conditions}` : ''};`;
-    const values = where ? Object.values(where) : [];
-    const result = await this.pool.query(query, values);
-    return result.rows;
+    const client = await this.pool.connect();
+    try {
+      const conditions = where
+        ? Object.keys(where)
+            .map((key, i) => `${key} = $${i + 1}`)
+            .join(' AND ')
+        : '';
+      const query = `SELECT * FROM ${table}${conditions ? ` WHERE ${conditions}` : ''};`;
+      const values = where ? Object.values(where) : [];
+      const result = await client.query(query, values);
+      return result.rows;
+    } finally {
+      client.release();
+    }
   }
 
   async update(table: string, data: Partial<Row>, where: Partial<Row>): Promise<void> {
-    const setClause = Object.keys(data)
-      .map((key, i) => `${key} = $${i + 1}`)
-      .join(', ');
-    const whereClause = Object.keys(where)
-      .map((key, i) => `${key} = $${i + Object.keys(data).length + 1}`)
-      .join(' AND ');
-    const query = `UPDATE ${table} SET ${setClause} WHERE ${whereClause};`;
-    const values = [...Object.values(data), ...Object.values(where)];
-    await this.pool.query(query, values);
+    const client = await this.pool.connect();
+    try {
+      const setClause = Object.keys(data)
+        .map((key, i) => `${key} = $${i + 1}`)
+        .join(', ');
+      const whereClause = Object.keys(where)
+        .map((key, i) => `${key} = $${i + Object.keys(data).length + 1}`)
+        .join(' AND ');
+      const query = `UPDATE ${table} SET ${setClause} WHERE ${whereClause};`;
+      const values = [...Object.values(data), ...Object.values(where)];
+      await client.query(query, values);
+    } finally {
+      client.release();
+    }
   }
 
   async delete(table: string, where: Partial<Row>): Promise<void> {
-    const whereClause = Object.keys(where)
-      .map((key, i) => `${key} = $${i + 1}`)
-      .join(' AND ');
-    const query = `DELETE FROM ${table} WHERE ${whereClause};`;
-    const values = Object.values(where);
-    await this.pool.query(query, values);
+    const client = await this.pool.connect();
+    try {
+      const whereClause = Object.keys(where)
+        .map((key, i) => `${key} = $${i + 1}`)
+        .join(' AND ');
+      const query = `DELETE FROM ${table} WHERE ${whereClause};`;
+      const values = Object.values(where);
+      await client.query(query, values);
+    } finally {
+      client.release();
+    }
   }
 }

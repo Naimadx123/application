@@ -41,8 +41,11 @@ export default class DatabaseManager {
           user: url.username,
           password: url.password,
           host: url.hostname,
-          port: parseInt(url.port, 10),
-          database: url.pathname.slice(1), // Remove leading "/"
+          port: url.port ? parseInt(url.port, 10) : 5432,
+          database: url.pathname.slice(1),
+          ssl: {
+            require: true,
+          },
         };
         const module = await import('./impl/Postgresql');
         dbClass = module.default || module;
@@ -68,7 +71,6 @@ export default class DatabaseManager {
       this.logger.info('Creating table ', file);
       const module = await import(file);
       const ItemClass = module.default || module;
-      // Pass the class, not an instance
       await this.dbInstance?.createTableFromClass(ItemClass);
     });
   }

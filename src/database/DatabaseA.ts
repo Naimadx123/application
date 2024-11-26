@@ -1,6 +1,7 @@
 import type { Logger } from 'pino';
 import sqlite3 from 'sqlite3';
 import { open, Database } from 'sqlite';
+import { Pool } from 'pg';
 
 type Row = Record<string, string | number | boolean | null>;
 type Constructor = new (...args: unknown[]) => unknown;
@@ -11,7 +12,7 @@ interface ColumnOptions {
 
 export abstract class DatabaseA {
   public logger: Logger;
-  public db: Database<sqlite3.Database, sqlite3.Statement> | undefined;
+  public db: Database<sqlite3.Database, sqlite3.Statement> | undefined | Pool;
 
   constructor(logger: Logger) {
     this.logger = logger;
@@ -48,7 +49,16 @@ export abstract class DatabaseA {
     });
 
     const createTableSQL = `CREATE TABLE IF NOT EXISTS ${tableName} (${columnDefinitions.join(', ')});`;
-    await this.db.run(createTableSQL);
+    if (this.db instanceof Pool) {
+      const client = await this.db.connect();
+      try {
+        await client.query(createTableSQL);
+      } finally {
+        client.release();
+      }
+    } else {
+      await this.db.run(createTableSQL);
+    }
   }
 
   private mapJsTypeToSqlType(jsType: string): string {
