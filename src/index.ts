@@ -19,4 +19,4 @@ export const client = new Client({
   },
 });
 
-(async (): Promise<void> => await client.init())();
+(async () => await client.init())();
