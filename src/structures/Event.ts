@@ -1,4 +1,4 @@
-import {Client, type ClientEvents} from 'discord.js';
+import { Client, type ClientEvents } from 'discord.js';
 
 export abstract class Event {
   public readonly name: string;

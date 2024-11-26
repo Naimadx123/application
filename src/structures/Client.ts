@@ -9,7 +9,7 @@ import type { Command } from '~/structures/Command';
 import type { Event } from './Event';
 import { Cobalt } from '~/lib/Cobalt';
 import { I18n } from '~/lib/I18n';
-import {client} from "~/index";
+import { client } from '~/index';
 
 export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
   public readonly prisma = new PrismaClient({
@@ -34,7 +34,12 @@ export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
     super(options);
   }
 
-  private async registerItems<T>(dir: string, extension: string, recursive: boolean, handler: (item: T, files: string) => void): Promise<void> {
+  private async registerItems<T>(
+    dir: string,
+    extension: string,
+    recursive: boolean,
+    handler: (item: T, files: string) => void
+  ): Promise<void> {
     const files = await getFiles(dir, extension, recursive);
     await Promise.all(
       files.map(async file => {
@@ -59,11 +64,9 @@ export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
       const relativePath = path.relative(path.join(__dirname, '..', 'commands'), file);
       const pathSegments = relativePath.split(path.sep);
 
-      if(!this.categories.has(pathSegments[0]))
-        this.categories.set(pathSegments[0], [])
+      if (!this.categories.has(pathSegments[0])) this.categories.set(pathSegments[0], []);
       const commandsInCategory = this.categories.get(pathSegments[0]);
-      if(commandsInCategory)
-        commandsInCategory.push(command.data.name);
+      if (commandsInCategory) commandsInCategory.push(command.data.name);
     });
     client.application?.commands.set(client.commands.map(command => command.data));
     logger.info(`Commands (${client.commands.size}) have been registered!`);
@@ -98,7 +101,5 @@ export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
       console.log(error);
       process.exit(1);
     }
-
   }
-
 }
