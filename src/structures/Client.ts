@@ -66,6 +66,7 @@ export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
         commandsInCategory.push(command.data.name);
     });
     client.application?.commands.set(client.commands.map(command => command.data));
+    logger.info(`Commands (${client.commands.size}) have been registered!`);
   }
 
   private async checkPrismaConnection(): Promise<void> {
