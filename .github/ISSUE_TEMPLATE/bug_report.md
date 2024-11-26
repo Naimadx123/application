@@ -9,21 +9,21 @@ assignees: ''
 **Describe the bug**
 A clear and concise description of what the bug is.
 
-**Where It Occurs**
+**Where it occurs**
 Specify where the bug occurs.
 
-**Steps to Reproduce**
+**Steps to reproduce**
 Provide a step-by-step guide to reproduce the bug.
 
-**Error Message/Stack Trace**
+**Error Messages**
 Paste the full error message or stack trace here, if available. Ensure it’s formatted properly for readability:
 
 ```
 [Error logs or stack trace]
 ```
 
-\*Screenshots\*\*
+**Screenshots**
 Include any relevant screenshots that help explain the issue.
 
-**Additional Context**
+**Additional context**
 Add any other context about the problem here (e.g., recent changes made to the bot, whether this is a recurring issue, etc.).
