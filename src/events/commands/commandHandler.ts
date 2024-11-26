@@ -1,8 +1,8 @@
 import {type ChatInputCommandInteraction, codeBlock} from 'discord.js';
-import { client } from '~/index.ts';
-import { type Locale } from '~/lib/I18n.ts';
-import { logger } from '~/lib/logger.ts';
-import { Embed } from '~/structures/Embed.ts';
+import { client } from '~/index';
+import { type Locale } from '~/lib/I18n';
+import { logger } from '~/lib/logger';
+import { Embed } from '~/structures/Embed';
 
 
 export default

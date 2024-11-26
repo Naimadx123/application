@@ -1,10 +1,7 @@
-import { codeBlock, type Interaction } from 'discord.js';
-import { client } from '~/index.ts';
-import { type Locale } from '~/lib/I18n.ts';
-import { logger } from '~/lib/logger.ts';
-import { Event } from '~/structures/Event.ts';
-import { Embed } from '~/structures/Embed.ts';
-import commandHandler from "~/events/commands/commandHandler.ts";
+import { type Interaction } from 'discord.js';
+import { client } from '~/index';
+import { Event } from '~/structures/Event';
+import commandHandler from "~/events/commands/commandHandler";
 
 export default class InteractionCreate extends Event {
   public constructor() {

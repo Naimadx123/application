@@ -1,4 +1,4 @@
-import { Event } from '~/structures/Event.ts';
+import { Event } from '~/structures/Event';
 import { client } from '~/index';
 import { logger } from '~/lib/logger';
 

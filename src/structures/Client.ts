@@ -5,11 +5,11 @@ import path from 'path';
 import { PrismaClient, Prisma } from '@prisma/client';
 import { logger } from '~/lib/logger';
 import { getFiles } from '~/lib/utils';
-import type { Command } from '~/structures/Command.ts';
-import type { Event } from './Event.ts';
-import { Cobalt } from '~/lib/Cobalt.ts';
-import { I18n } from '~/lib/I18n.ts';
-import {client} from "~/index.ts";
+import type { Command } from '~/structures/Command';
+import type { Event } from './Event';
+import { Cobalt } from '~/lib/Cobalt';
+import { I18n } from '~/lib/I18n';
+import {client} from "~/index";
 
 export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
   public readonly prisma = new PrismaClient({

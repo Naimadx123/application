@@ -10,9 +10,9 @@ import {
   userMention,
 } from 'discord.js';
 
-import { Command } from '~/structures/Command.ts';
-import { Embed } from '~/structures/Embed.ts';
-import type { I18nFunction } from '~/lib/I18n.ts';
+import { Command } from '~/structures/Command';
+import { Embed } from '~/structures/Embed';
+import type { I18nFunction } from '~/lib/I18n';
 
 export default class Info extends Command {
   public constructor() {

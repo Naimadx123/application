@@ -9,8 +9,7 @@ import {
 
 import type { Locale as LocalePrismaType } from '@prisma/client';
 import { client } from '~/index';
-import type { I18nFunction } from '~/lib/I18n.ts';
-import { type Locale as LocaleType } from '~/lib/I18n.ts';
+import { type Locale as LocaleType, type I18nFunction } from '~/lib/I18n';
 import { Command } from '~/structures/Command.ts';
 import { Embed } from '~/structures/Embed.ts';
 
