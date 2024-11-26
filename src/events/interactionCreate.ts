@@ -3,13 +3,12 @@ import { client } from '~/index';
 import { type Locale } from '~/lib/i18n';
 import { logger } from '~/lib/logger';
 import { Event } from '~/structures/event';
-import { Embed } from '~/structures/embed.ts';
+import { Embed } from '~/structures/embed';
 
 export default class InteractionCreate extends Event {
   public constructor() {
     super({
       name: 'interactionCreate',
-      once: false,
     });
   }
 
