@@ -5,12 +5,21 @@ import type {
   SlashCommandSubcommandsOnlyBuilder,
 } from 'discord.js';
 
-export abstract class Command {
-  public readonly data: SlashCommandBuilder | SlashCommandOptionsOnlyBuilder | SlashCommandSubcommandsOnlyBuilder;
+import type { I18nFunction } from '~/lib/i18n';
 
-  public constructor(data: SlashCommandBuilder | SlashCommandOptionsOnlyBuilder | SlashCommandSubcommandsOnlyBuilder) {
+type CommandData = SlashCommandBuilder | SlashCommandOptionsOnlyBuilder | SlashCommandSubcommandsOnlyBuilder;
+
+export abstract class Command {
+  public readonly data: CommandData;
+
+  public constructor(data: CommandData) {
     this.data = data;
   }
 
-  public abstract run(interaction: ChatInputCommandInteraction, i18n: (key: string) => string): Promise<unknown>;
+  /**
+   * Executes the command logic
+   * @param interaction The interaction that triggered this command
+   * @param i18n Translation function for internationalization
+   */
+  public abstract run(interaction: ChatInputCommandInteraction, i18n: I18nFunction): Promise<unknown>;
 }

@@ -30,20 +30,20 @@ export default class Ping extends Command {
   public async run(interaction: ChatInputCommandInteraction, $: I18nFunction): Promise<void> {
     const embed = new Embed()
       .setDefaults(interaction.user)
-      .setDescription(':ping_pong: ' + $('commands.ping.response'))
+      .setDescription(':ping_pong: ' + $('modules.ping.response'))
       .addFields([
         {
-          name: $('commands.ping.fields.websocket'),
+          name: $('modules.ping.fields.websocket'),
           value: `${interaction.client.ws.ping}ms`,
           inline: true,
         },
         {
-          name: $('commands.ping.fields.database'),
+          name: $('modules.ping.fields.database'),
           value: `0ms`,
           inline: true,
         },
         {
-          name: $('commands.ping.fields.api'),
+          name: $('modules.ping.fields.api'),
           value: `0ms`,
           inline: true,
         },
@@ -52,11 +52,11 @@ export default class Ping extends Command {
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
-        .setLabel($('commands.ping.buttons.reportIssues'))
-        .setURL('https://discord.gg/92uqkS7Zyt'),
+        .setLabel($('modules.ping.buttons.reportIssues'))
+        .setURL('https://discord.meteors.cc'),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
-        .setLabel($('commands.ping.buttons.servicesStatus'))
+        .setLabel($('modules.ping.buttons.servicesStatus'))
         .setURL('https://meteors.cc/status')
     );
 

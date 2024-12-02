@@ -1,0 +1,12 @@
+{
+  "response": "Pong!",
+  "fields": {
+    "websocket": "Websocket",
+    "database": "Database",
+    "api": "API"
+  },
+  "buttons": {
+    "reportIssues": "Report issues",
+    "servicesStatus": "Service status"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "user": {
+    "title": "User info",
+    "fields": {
+      "general": "General",
+      "nickname": "Nickname",
+      "name": "Name",
+      "createdAt": "Created at",
+      "joinedAt": "Joined at",
+      "roles": "Roles",
+      "member": "Member"
+    },
+    "buttons": {
+      "avatar": "Avatar URL",
+      "user": "User URL"
+    }
+  },
+  "server": {
+    "noGuild": "You are not in any guild",
+    "title": "Server info",
+    "fields": {
+      "general": "General",
+      "createdAt": "Created at",
+      "owner": "Owner",
+      "statistics": "Statistics",
+      "boosts": "Boosts",
+      "members": "Members",
+      "verificationLevel": "Verification Level"
+    },
+    "buttons": {
+      "icon": "Icon URL",
+      "banner": "Banner URL"
+    }
+  },
+  "app": {
+    "noApp": "This ID doesn't match any app",
+    "fields": {
+      "general": "General",
+      "verified": "Is verified",
+      "monetized": "Is monetized",
+      "discoverable": "Is discoverable",
+      "bot_public": "Is public",
+      "tos": "Terms of Service",
+      "privacy_policy": "Privacy Policy",
+      "invite": "Invite",
+      "tags": "Tags",
+      "links": "Links"
+    }
+  },
+  "role": {
+    "noRole": "This ID doesn't match any role",
+    "title": "Role info",
+    "fields": {
+      "general": "General",
+      "name": "Name",
+      "color": "Color",
+      "hoist": "Hoist",
+      "position": "Position",
+      "members": "Members",
+      "other": "Other",
+      "created": "Created",
+      "mentionable": "Mentionable"
+    }
+  }
+}

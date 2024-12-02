@@ -1,5 +1,5 @@
 import { Event } from '~/structures/event';
-import { client } from '~/index';
+import { client } from '../app';
 import { logger } from '~/lib/logger';
 
 export default class Ready extends Event {
@@ -12,6 +12,9 @@ export default class Ready extends Event {
 
   public async run(): Promise<void> {
     logger.info('Client has started up successfully!');
-    logger.info(`Application is in ${client.guilds.cache.size} server(s)`);
+    logger.info(`  ├── Guilds: ${client.guilds.cache.size}`);
+    logger.info(`  └── Commands: ${client.commands.size}`);
+
+    client.application?.commands.set(client.commands.map(command => command.data));
   }
 }

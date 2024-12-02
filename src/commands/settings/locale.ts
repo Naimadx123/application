@@ -8,7 +8,7 @@ import {
 } from 'discord.js';
 
 import type { Locale as LocalePrismaType } from '@prisma/client';
-import { client } from '~/index';
+import { client } from '~/app';
 import type { I18nFunction } from '~/lib/i18n';
 import { type Locale as LocaleType } from '~/lib/i18n';
 import { Command } from '~/structures/command';
@@ -53,16 +53,12 @@ export default class Locale extends Command {
     );
   }
 
-  /**
-   * The cooldown for changing the locale per server.
-   * Cooldown: 1 minute
-   */
   private readonly cooldowns = new Collection<string, number>();
 
   public async run(interaction: ChatInputCommandInteraction, $: I18nFunction): Promise<unknown> {
     if (this.cooldowns.has(interaction.guildId!)) {
-      if (Date.now() - this.cooldowns.get(interaction.guildId!)! < 1 * 60 * 1000) {
-        const embed = new Embed().setDefaults(interaction.user).setDescription($('commands.locale.cooldown'));
+      if (Date.now() - this.cooldowns.get(interaction.guildId!)! < 60 * 1000) {
+        const embed = new Embed().setDefaults(interaction.user).setDescription($('modules.locale.cooldown'));
 
         return await interaction.reply({
           embeds: [embed],
@@ -90,7 +86,7 @@ export default class Locale extends Command {
       .finally(() => this.cooldowns.set(interaction.guildId!, Date.now()));
 
     if (!result) {
-      const embed = new Embed().setDefaults(interaction.user).setDescription($('commands.locale.error'));
+      const embed = new Embed().setDefaults(interaction.user).setDescription($('modules.locale.error'));
 
       return await interaction.reply({
         embeds: [embed],

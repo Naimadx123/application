@@ -1,0 +1,65 @@
+{
+  "user": {
+    "title": "Informacje o użytkowniku",
+    "fields": {
+      "general": "Ogólne",
+      "nickname": "Pseudonim",
+      "name": "Nazwa",
+      "createdAt": "Utworzono",
+      "joinedAt": "Dołączył",
+      "roles": "Role",
+      "member": "Członek"
+    },
+    "buttons": {
+      "avatar": "URL awatara",
+      "user": "URL użytkownika"
+    }
+  },
+  "server": {
+    "noGuild": "Nie jesteś na żadnym serwerze",
+    "title": "Informacje o serwerze",
+    "fields": {
+      "general": "Ogólne",
+      "createdAt": "Utworzono",
+      "owner": "Właściciel",
+      "statistics": "Statystyki",
+      "boosts": "Doładowania",
+      "members": "Członkowie",
+      "verificationLevel": "Poziom weryfikacji"
+    },
+    "buttons": {
+      "icon": "URL ikony",
+      "banner": "URL banera"
+    }
+  },
+  "app": {
+    "noApp": "To ID nie pasuje do żadnej aplikacji",
+    "fields": {
+      "general": "Ogólne",
+      "verified": "Zweryfikowana",
+      "monetized": "Zmonetyzowana",
+      "discoverable": "Możliwa do odkrycia",
+      "bot_public": "Publiczny",
+      "tos": "Regulamin",
+      "privacy_policy": "Polityka prywatności",
+      "invite": "Zaproszenie",
+      "tags": "Tagi",
+      "links": "Linki"
+    }
+  },
+  "role": {
+    "noRole": "To ID nie pasuje do żadnej roli",
+    "title": "Informacje o roli",
+    "fields": {
+      "general": "Ogólne",
+      "name": "Nazwa",
+      "color": "Kolor",
+      "hoist": "Wyróżniona",
+      "position": "Pozycja",
+      "members": "Członkowie",
+      "other": "Inne",
+      "created": "Utworzona",
+      "mentionable": "Możliwa do oznaczenia"
+    }
+  }
+}

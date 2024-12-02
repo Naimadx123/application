@@ -1,0 +1,35 @@
+{
+  "status": {
+    "downloading": "Pobieranie mediów z URL",
+    "downloadComplete": "Pobrano media w czasie {time}",
+    "noFiles": "Brak plików do wyeksportowania",
+    "fileTooLarge": "Plik przekracza limit 10 MB ({size})"
+  },
+  "fields": {
+    "files": "Pliki",
+    "size": "Rozmiar"
+  },
+  "apiErrors": {
+    "generic": "Wystąpił błąd po stronie serwera. Spróbuj ponownie, a jeśli problem będzie się powtarzał, skontaktuj się z nami.",
+    "rate_exceeded": "Klient został ograniczony, spróbuj ponownie za kilka sekund.",
+    "capacity": "Serwer jest przeciążony, spróbuj ponownie za kilka sekund.",
+    "service_unsupported": "Ten serwer nie obsługuje usługi, której próbujesz użyć.",
+    "service_disabled": "Usługa, do której próbujesz uzyskać dostęp, została wyłączona przez serwer.",
+    "link_invalid": "Podany link jest nieprawidłowy. Sprawdź poprawność linku.",
+    "link_unsupported": "Podany link nie jest rozpoznawany. Sprawdź link i spróbuj ponownie.",
+    "fetch_fail": "Wystąpił nieznany błąd podczas pobierania mediów. Upewnij się, że link jest poprawny.",
+    "fetch_critical": "Usługa, do której próbujesz uzyskać dostęp, zwraca nieoczekiwane dane. Spróbuj ponownie później.",
+    "fetch_empty": "Usługa zwróciła pustą odpowiedź. Spróbuj ponownie później.",
+    "fetch_rate": "Serwer został ograniczony przez usługę, do której próbujesz uzyskać dostęp. Spróbuj ponownie później.",
+    "content_too_long": "Media, które próbujesz pobrać, są zbyt długie. Spróbuj z krótszym wideo.",
+    "content_video_unavailable": "Film, który próbujesz pobrać, jest zablokowany regionalnie lub przez usługę",
+    "content_video_live": "Film, który próbujesz pobrać, jest transmisją na żywo i nie może zostać pobrany.",
+    "content_video_age": "Film, który próbujesz pobrać, ma ograniczenia wiekowe i nie może zostać pobrany.",
+    "content_video_private": "Film, który próbujesz pobrać, jest prywatny. Upewnij się, że jest publiczny lub niepubliczny.",
+    "content_video_region": "Film, który próbujesz pobrać, jest zablokowany regionalnie.",
+    "youtube_decipher": "Cobalt nie mógł odszyfrować filmu. Spróbuj ponownie później.",
+    "youtube_login": "YouTube oznaczył serwer jako bota. Spróbuj ponownie później, a jeśli problem będzie się powtarzał, skontaktuj się z nami.",
+    "youtube_token_expired": "Token YouTube wygasł. Spróbuj ponownie za kilka sekund, a jeśli problem będzie się powtarzał, skontaktuj się z nami.",
+    "youtube_no_hls_streams": "Film, który próbujesz pobrać, nie ma dostępnych strumieni HLS."
+  }
+}
