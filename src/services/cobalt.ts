@@ -14,30 +14,46 @@ export interface CobaltResponse {
   };
 }
 
-export class Cobalt {
-  private instance = 'https://cobalt.meteors.cc/';
+export class CobaltService {
+  private instance: string;
 
+  constructor(instanceUrl = process.env.COBALT_API_URL || 'https://cobalt.meteors.cc/') {
+    this.instance = instanceUrl;
+  }
+
+  /**
+   * Fetches data from the Cobalt API.
+   * @param url The URL to send for processing.
+   */
   public async fetch(url: string): Promise<CobaltResponse> {
     const res = await fetch(this.instance, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        'User-Agent': 'meteor-application/1.0.0',
+        Authorization: `Api-Key ${process.env.COBALT_API_KEY}`,
       },
       body: JSON.stringify({
         url,
       }),
     });
+
     return await res.json();
   }
 
+  /**
+   * Downloads a file from the specified URL and returns a Buffer.
+   * @param url The URL to download the file from.
+   */
   public async download(url: string): Promise<Buffer> {
-    const res = await fetch(url).catch(err => err);
-    if (res instanceof Error) {
-      throw res;
+    const res = await fetch(url);
+
+    if (!res.ok) {
+      throw new Error(`Failed to download file: ${res.status} ${res.statusText}`);
     }
-    const blob = await res.blob();
-    const buffer = Buffer.from(await blob.arrayBuffer());
-    return buffer;
+
+    const arrayBuffer = await res.arrayBuffer();
+    return Buffer.from(arrayBuffer);
   }
 }
