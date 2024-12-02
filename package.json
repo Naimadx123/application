@@ -1,13 +1,13 @@
 {
   "name": "application",
-  "module": "src/index.ts",
+  "module": "src/app.ts",
   "type": "module",
   "engines": {
     "bun": ">=1.1.0"
   },
   "scripts": {
-    "dev": "bun run --watch src/index.ts",
-    "start": "bun run src/index.ts",
+    "dev": "bun run --watch .",
+    "start": "bun run .",
     "format": "prettier --write .",
     "lint": "eslint . --ext .ts",
     "preinstall": "bunx only-allow bun"

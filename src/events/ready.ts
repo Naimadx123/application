@@ -1,5 +1,5 @@
 import { Event } from '~/structures/event';
-import { client } from '..';
+import { client } from '../app';
 import { logger } from '~/lib/logger';
 
 export default class Ready extends Event {

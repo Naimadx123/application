@@ -33,9 +33,8 @@ export class I18n {
       const translations = await Promise.all(
         files.map(async file => {
           const content = await fs.readFile(file, 'utf8');
-          const jsonContent = content.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '');
           return {
-            content: JSON.parse(jsonContent),
+            content,
             namespace: path
               .relative(localePath, file)
               .replace(/\.[^/.]+$/, '')

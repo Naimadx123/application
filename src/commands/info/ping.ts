@@ -53,7 +53,7 @@ export default class Ping extends Command {
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
         .setLabel($('modules.ping.buttons.reportIssues'))
-        .setURL('https://discord.gg/92uqkS7Zyt'),
+        .setURL('https://discord.meteors.cc'),
       new ButtonBuilder()
         .setStyle(ButtonStyle.Link)
         .setLabel($('modules.ping.buttons.servicesStatus'))

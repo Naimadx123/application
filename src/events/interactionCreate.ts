@@ -1,7 +1,6 @@
 import { codeBlock, type Interaction } from 'discord.js';
-import { client } from '~/index';
+import { client } from '~/app';
 import { type Locale } from '~/lib/i18n';
-import { logger } from '~/lib/logger';
 import { Event } from '~/structures/event';
 import { Embed } from '~/structures/embed';
 
@@ -16,42 +15,20 @@ export default class InteractionCreate extends Event {
     if (!interaction.isChatInputCommand()) return;
 
     const command = client.commands.get(interaction.commandName);
-    if (!command) {
-      logger.warn(`Command ${interaction.commandName} not found!`);
-      return;
-    }
+    if (!command) return;
 
-    let locale = 'en';
-
-    if (client.dbConnected && interaction.guild) {
-      const guild = await client.prisma.guild
-        .findUnique({
-          where: {
-            id: interaction.guildId!,
-          },
-          select: {
-            locale: true,
-          },
-        })
-        .catch(err => {
-          console.log(err);
-          return undefined;
-        });
-
-      if (guild) locale = guild.locale.toLowerCase();
-    }
+    const locale = interaction.guild
+      ? await client.prisma.guild
+          .findUnique({
+            where: { id: interaction.guildId! },
+            select: { locale: true },
+          })
+          .then(guild => guild?.locale.toLowerCase() ?? 'en')
+          .catch(() => 'en')
+      : 'en';
 
     const translate = (key: string, vars?: Record<string, string>) =>
       client.i18n.translate(locale as Locale, key, vars);
-
-    if (command.isDbRequired && !client.dbConnected) {
-      const errorEmbed = new Embed()
-        .setDefaults(interaction.user)
-        .setDescription(translate('common.databaseConnectionError'));
-
-      await interaction.reply({ embeds: [errorEmbed] }).catch(() => null);
-      return;
-    }
 
     await command.run(interaction, translate).catch(async (error: unknown) => {
       const errorMessage = error instanceof Error ? error.message : String(error);

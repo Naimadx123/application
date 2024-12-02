@@ -8,7 +8,7 @@ import {
 } from 'discord.js';
 
 import type { Locale as LocalePrismaType } from '@prisma/client';
-import { client } from '~/index';
+import { client } from '~/app';
 import type { I18nFunction } from '~/lib/i18n';
 import { type Locale as LocaleType } from '~/lib/i18n';
 import { Command } from '~/structures/command';
@@ -51,13 +51,8 @@ export default class Locale extends Command {
             )
         )
     );
-    this.requiresDb();
   }
 
-  /**
-   * The cooldown for changing the locale per server.
-   * Cooldown: 1 minute
-   */
   private readonly cooldowns = new Collection<string, number>();
 
   public async run(interaction: ChatInputCommandInteraction, $: I18nFunction): Promise<unknown> {
