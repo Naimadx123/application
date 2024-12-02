@@ -30,30 +30,23 @@ export class I18n {
     try {
       const files = await this.getJsonFiles(localePath);
 
-      const translations = await Promise.all(
-        files.map(async file => {
-          const content = await fs.readFile(file, 'utf8');
-          return {
-            content,
-            namespace: path
-              .relative(localePath, file)
-              .replace(/\.[^/.]+$/, '')
-              .split(path.sep),
-          };
-        })
-      );
+      for (const file of files) {
+        const content = JSON.parse(await fs.readFile(file, 'utf8'));
+        const namespace = path
+          .relative(localePath, file)
+          .replace(/\.[^/.]+$/, '')
+          .split(path.sep);
 
-      for (const { content, namespace } of translations) {
         let current = mergedTranslations;
-
-        for (let i = 0; i < namespace.length - 1; i++) {
+        for (let i = 0; i < namespace.length; i++) {
           const segment = namespace[i];
-          current[segment] = current[segment] || {};
-          current = current[segment] as Record<string, unknown>;
+          if (i === namespace.length - 1) {
+            current[segment] = { ...((current[segment] as object) || {}), ...content };
+          } else {
+            current[segment] = current[segment] || {};
+            current = current[segment] as Record<string, unknown>;
+          }
         }
-
-        const lastSegment = namespace[namespace.length - 1];
-        current[lastSegment] = { ...((current[lastSegment] as object) || {}), ...content };
       }
     } catch (error) {
       logger.error(`Failed to load files from '${localePath}':`, error);
