@@ -11,9 +11,8 @@ export class Embed extends EmbedBuilder {
   setDefaults(author?: User) {
     if (!author) return this;
 
-    const name = author.displayName === author.username 
-      ? author.username 
-      : `${author.username} (${author.displayName})`;
+    const name =
+      author.displayName === author.username ? author.username : `${author.username} (${author.displayName})`;
 
     this.setAuthor({
       name,
