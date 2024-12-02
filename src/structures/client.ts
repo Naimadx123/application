@@ -23,7 +23,7 @@ export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
 
     for await (const filePath of glob.scan(dir)) {
       try {
-        const { default: ItemClass } = (await import(filePath)) as { default: new () => T };
+        const { default: ItemClass } = (await import(join(process.cwd(), filePath))) as { default: new () => T };
         handler(new ItemClass());
       } catch (error) {
         console.error(`Error registering ${filePath}:`, error);
