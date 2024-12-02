@@ -33,6 +33,9 @@ COPY --from=prerelease /usr/src/app/prisma/ ./prisma/
 COPY --from=prerelease /usr/src/app/package.json .
 COPY --from=prerelease /usr/src/app/tsconfig.json .
 
+# generate Prisma client
+RUN bunx prisma generate
+
 # run the app
 USER bun
 ENTRYPOINT [ "bun", "start" ]
