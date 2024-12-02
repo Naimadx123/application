@@ -5,13 +5,13 @@ import { join } from 'path';
 import { PrismaClient } from '@prisma/client';
 import type { Command } from '~/structures/command';
 import type { Event } from './event';
-import { Cobalt } from '~/services/cobalt';
+import { CobaltService } from '~/services/cobalt';
 import { I18n } from '~/lib/i18n';
 
 export class Client<Ready extends boolean = true> extends DiscordClient<Ready> {
   public readonly prisma = new PrismaClient();
   public readonly i18n = new I18n();
-  public readonly cobalt = new Cobalt();
+  public readonly cobalt = new CobaltService();
   public readonly commands = new Collection<string, Command>();
 
   public constructor(options: ClientOptions) {
