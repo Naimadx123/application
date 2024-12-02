@@ -41,7 +41,7 @@ export class I18n {
         for (let i = 0; i < namespace.length; i++) {
           const segment = namespace[i];
           if (i === namespace.length - 1) {
-            current[segment] = { ...(current[segment] as object || {}), ...content };
+            current[segment] = { ...((current[segment] as object) || {}), ...content };
           } else {
             current[segment] = current[segment] || {};
             current = current[segment] as Record<string, unknown>;
